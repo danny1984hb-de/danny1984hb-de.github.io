@@ -76,7 +76,7 @@
  let items=[], index=0, timer;
  const sourceLabel=s=>s==='google'?'Google-Bewertung':s==='customer'?'Kundenbewertung':'Direkte Bewertung';
  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
- const perView=()=>innerWidth<=760?1:innerWidth<=1000?2:3;
+ const perView=()=>innerWidth<=760?1:2;
  function render(){
    const count=perView(), max=Math.max(0,items.length-count); index=Math.min(index,max);
    track.innerHTML=items.map(x=>`<article class="testimonial-card"><div class="testimonial-top"><span class="testimonial-stars" aria-label="${x.rating} von 5 Sternen">${'★'.repeat(x.rating)}${'☆'.repeat(5-x.rating)}</span><span class="testimonial-source">${esc(sourceLabel(x.source))}</span></div><blockquote>“${esc(x.content)}”</blockquote><footer><strong>${esc(x.name)}</strong>${x.company?`<span>${esc(x.company)}</span>`:''}</footer></article>`).join('');
