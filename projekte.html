@@ -8,6 +8,9 @@
   <title>Projekte — Danny</title>
   <link rel="icon" type="image/png" sizes="128x128" href="drb-digital-symbol-transparent-128px.png">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .project-image{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:12px;margin:0 0 18px;border:1px solid var(--line)}
+  </style>
 </head>
 <body id="top">
 <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -34,73 +37,36 @@
   const grid = document.getElementById('project-grid');
   const status = document.getElementById('project-status');
   const fallback = grid.innerHTML;
-
-  const esc = (value = '') => String(value).replace(/[&<>"']/g, char => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
-  })[char]);
-
-  const typeLabel = type => ({
-    own: 'Eigenes Projekt',
-    customer: 'Kundenprojekt',
-    reference: 'Referenz'
-  })[type] || type || 'Projekt';
-
-  const statusLabel = value => ({
-    active: 'Aktives Projekt',
-    completed: 'Abgeschlossen',
-    planned: 'Geplant',
-    archived: 'Archiviert'
-  })[value] || value || 'Projekt';
-
+  const esc = (value = '') => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[char]);
+  const typeLabel = type => ({own:'Eigenes Projekt',customer:'Kundenprojekt',reference:'Referenz'})[type] || type || 'Projekt';
+  const statusLabel = value => ({active:'Aktives Projekt',completed:'Abgeschlossen',planned:'Geplant',archived:'Archiviert'})[value] || value || 'Projekt';
   const safeUrl = value => {
     if (!value) return '';
-    try {
-      const url = new URL(value, window.location.href);
-      return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
-    } catch (_) { return ''; }
+    try { const url = new URL(value, window.location.href); return ['http:','https:'].includes(url.protocol) ? url.href : ''; }
+    catch (_) { return ''; }
   };
-
   const render = projects => {
-    grid.innerHTML = projects.map((project, index) => {
+    grid.innerHTML = projects.map((project,index) => {
       const technologies = Array.isArray(project.technologies) ? project.technologies : [];
-      const tags = technologies.length
-        ? '<ul class="tags" aria-label="Technologien">' + technologies.map(t => '<li>' + esc(t) + '</li>').join('') + '</ul>'
-        : '';
-      const projectUrl = safeUrl(project.project_url);
-      const githubUrl = safeUrl(project.github_url);
-      const links = [
-        projectUrl ? '<a class="project-link" href="' + esc(projectUrl) + '" target="_blank" rel="noopener noreferrer">Projekt besuchen <span aria-hidden="true">↗</span></a>' : '',
-        githubUrl ? '<a class="project-link" href="' + esc(githubUrl) + '" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>' : ''
+      const tags = technologies.length ? '<ul class="tags" aria-label="Technologien">' + technologies.map(t => '<li>'+esc(t)+'</li>').join('') + '</ul>' : '';
+      const projectUrl=safeUrl(project.project_url), githubUrl=safeUrl(project.github_url), imageUrl=safeUrl(project.image_url);
+      const image = imageUrl ? '<img class="project-image" src="'+esc(imageUrl)+'" alt="'+esc(project.title || 'Projekt')+'" loading="lazy">' : '';
+      const links=[
+        projectUrl ? '<a class="project-link" href="'+esc(projectUrl)+'" target="_blank" rel="noopener noreferrer">Projekt besuchen <span aria-hidden="true">↗</span></a>' : '',
+        githubUrl ? '<a class="project-link" href="'+esc(githubUrl)+'" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>' : ''
       ].filter(Boolean).join(' ');
-      return '<article class="project-card">' +
-        '<div class="project-top"><span class="project-category">' + esc(typeLabel(project.type)) + '</span><span class="project-number" aria-hidden="true">' + String(index + 1).padStart(2, '0') + '</span></div>' +
-        '<h2 class="card-title">' + esc(project.title || 'Projekt') + '</h2>' +
-        '<p>' + esc(project.summary || project.description || '') + '</p>' +
-        tags + links +
-        (!links ? '<p class="project-caption">' + esc(statusLabel(project.status)) + '</p>' : '') +
+      return '<article class="project-card">'+image+
+        '<div class="project-top"><span class="project-category">'+esc(typeLabel(project.type))+'</span><span class="project-number" aria-hidden="true">'+String(index+1).padStart(2,'0')+'</span></div>'+
+        '<h2 class="card-title">'+esc(project.title || 'Projekt')+'</h2>'+
+        '<p>'+esc(project.summary || project.description || '')+'</p>'+tags+links+
+        (!links ? '<p class="project-caption">'+esc(statusLabel(project.status))+'</p>' : '')+
         '</article>';
     }).join('');
   };
-
-  fetch(API, { headers: { 'Accept': 'application/json' } })
-    .then(response => {
-      if (!response.ok) throw new Error('HTTP ' + response.status);
-      return response.json();
-    })
-    .then(payload => {
-      const projects = Array.isArray(payload.data) ? payload.data : [];
-      if (!projects.length) {
-        grid.innerHTML = fallback;
-        status.textContent = '';
-        return;
-      }
-      render(projects);
-      status.textContent = '';
-    })
-    .catch(() => {
-      grid.innerHTML = fallback;
-      status.textContent = '';
-    });
+  fetch(API,{headers:{'Accept':'application/json'}})
+    .then(response=>{if(!response.ok) throw new Error('HTTP '+response.status); return response.json();})
+    .then(payload=>{const projects=Array.isArray(payload.data)?payload.data:[]; if(!projects.length){grid.innerHTML=fallback;return;} render(projects);status.textContent='';})
+    .catch(()=>{grid.innerHTML=fallback;status.textContent='';});
 })();
 </script>
 </body>
