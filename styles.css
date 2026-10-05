@@ -9,18 +9,18 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:6px;border-radius
 .skip-link{position:fixed;top:12px;left:12px;z-index:10;padding:10px 18px;background:var(--accent);color:var(--paper);transform:translateY(-160%)}
 .skip-link:focus{transform:translateY(0)}
 .site-header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
-.header-inner{min-height:86px;display:flex;justify-content:space-between;align-items:center;gap:30px}
+.header-inner{min-height:70px;display:flex;justify-content:space-between;align-items:center;gap:30px}
 .brand{font-size:28px;font-weight:750;letter-spacing:-1.4px}
 .brand span{color:var(--accent)}
 nav{display:flex;gap:32px;align-items:center;font-size:14px;font-weight:600}
 nav a{padding:8px 0}
 nav a:hover,.text-link:hover,.project-link:hover{color:var(--accent);text-decoration:underline;text-underline-offset:5px}
-.hero{display:grid;grid-template-columns:1.5fr 1fr;gap:64px;align-items:center;padding-block:96px 100px}
+.hero{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:center;padding-block:48px}
 .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:2px;font-weight:700;color:var(--accent);margin:0 0 22px}
 h1,h2,h3,p{margin-top:0}
-h1{font-size:clamp(38px,4.3vw,60px);font-weight:650;line-height:1.13;letter-spacing:-2.6px;margin-bottom:26px}
+h1{font-size:clamp(34px,3.5vw,46px);font-weight:650;line-height:1.13;letter-spacing:-1.6px;margin-bottom:26px}
 h1 span{color:#b7c4bc}
-.lead{max-width:570px;font-size:18px;line-height:1.8;color:var(--body)}
+.lead{max-width:570px;font-size:16px;line-height:1.75;color:var(--body)}
 .actions{display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin-top:32px}
 .button{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;padding:14px 22px;border-radius:3px;font-size:14px;font-weight:650}
 .primary{background:var(--accent);color:#101410;transition:background .2s}
@@ -38,14 +38,14 @@ h1 span{color:#b7c4bc}
 .focus-list dt span{font-size:11px;color:var(--accent);margin-right:15px;font-weight:400}
 .focus-list dd{font-size:12px;color:var(--body);margin:4px 0 0 30px}
 .panel-bottom{border-top:1px solid var(--line);padding-top:20px;margin-top:2px;font-size:11px;letter-spacing:.5px;color:var(--body)}
-.section{padding-block:88px}
-h2{font-size:clamp(30px,3.4vw,43px);line-height:1.18;letter-spacing:-1.4px;font-weight:600;margin-bottom:0}
-.section-header{display:flex;align-items:flex-end;justify-content:space-between;gap:36px;margin-bottom:40px}
+.section{padding-block:44px}
+h2{font-size:clamp(27px,2.7vw,34px);line-height:1.18;letter-spacing:-1.4px;font-weight:600;margin-bottom:0}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;gap:36px;margin-bottom:28px}
 .section-header .eyebrow{margin-bottom:15px}
 .section-header>p{font-size:14px;color:var(--body);margin:0;max-width:370px}
 .projects-section{background:var(--soft);border-block:1px solid var(--line)}
 .project-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-.project-card{display:flex;flex-direction:column;background:var(--white);border:1px solid var(--line);border-radius:4px;padding:32px}
+.project-card{display:flex;flex-direction:column;background:var(--white);border:1px solid var(--line);border-radius:4px;padding:24px}
 .project-top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:26px}
 .project-category{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--body);font-weight:650}
 .project-number{font-size:13px;color:var(--accent)}
@@ -57,7 +57,7 @@ h2{font-size:clamp(30px,3.4vw,43px);line-height:1.18;letter-spacing:-1.4px;font-
 .project-link{display:flex;justify-content:space-between;font-weight:650}
 .project-link span{color:var(--accent)}
 .project-caption{color:var(--body)}
-.about-section{display:grid;grid-template-columns:1fr 1fr;gap:70px}
+.about-section{display:grid;grid-template-columns:1fr 1fr;gap:40px}
 .about-copy p{color:var(--body);font-size:16px;margin-bottom:20px}
 .about-copy .about-intro{font-size:23px;line-height:1.5;color:var(--ink);letter-spacing:-.3px}
 .technologies-section{border-block:1px solid var(--line)}
@@ -68,7 +68,7 @@ h2{font-size:clamp(30px,3.4vw,43px);line-height:1.18;letter-spacing:-1.4px;font-
 .technology-group p{font-size:14px;color:var(--body);margin-bottom:22px}
 .technology-group ul{list-style:none;padding:0;margin:0}
 .technology-group li{font-size:14px;border-top:1px solid var(--line);padding:10px 0}
-.contact-section{padding-block:88px;display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:center}
+.contact-section{padding-block:44px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
 .contact-section h2{margin-bottom:22px}
 .contact-section p:not(.eyebrow){color:var(--body);font-size:15px;margin-bottom:0}
 .contact-links a{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;border-bottom:1px solid var(--line);font-size:24px;font-weight:600;letter-spacing:-.5px}
@@ -76,9 +76,40 @@ h2{font-size:clamp(30px,3.4vw,43px);line-height:1.18;letter-spacing:-1.4px;font-
 .contact-links small{display:block;font-size:11px;letter-spacing:1px;color:var(--body);text-transform:uppercase;font-weight:500;margin-bottom:5px}
 .contact-links a>span:last-child,.contact-links a:hover{color:var(--accent)}
 .site-footer{border-top:1px solid var(--line)}
-.footer-inner{min-height:100px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.footer-inner{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .footer-inner p,.footer-inner>a:last-child{font-size:12px;color:var(--body);margin:0}
-@media(min-width:1500px){.hero{padding-block:120px}}
-@media(max-width:1000px){.container{width:calc(100% - 64px)}.hero{gap:36px;padding-block:72px}.focus-panel{padding:26px}.hero h1{letter-spacing:-1.8px}.technology-grid{gap:24px}.contact-section{gap:40px}}
-@media(max-width:760px){html{scroll-padding-top:135px}.container{width:calc(100% - 40px)}.header-inner{min-height:104px;flex-wrap:wrap;gap:6px;padding-block:12px}.brand{font-size:25px}nav{width:100%;gap:12px;font-size:12px;justify-content:space-between}nav a{padding:5px 0}.hero{grid-template-columns:1fr;padding-block:52px;gap:38px}h1{font-size:clamp(34px,7.5vw,55px);letter-spacing:-1.6px}.lead{font-size:16px}.focus-panel{padding:28px}.panel-title{font-size:34px}.section{padding-block:56px}.section-header{display:block;margin-bottom:28px}.section-header>p{margin-top:20px}.project-grid,.about-section,.technology-grid,.contact-section{grid-template-columns:1fr}.project-card{padding:26px}.project-card h3{font-size:25px}.about-section{gap:28px}.technology-grid{gap:32px}.contact-section{padding-block:56px;gap:32px}.footer-inner{flex-wrap:wrap;gap:12px;padding-block:24px}.footer-inner p{width:100%;order:3}.eyebrow{font-size:11px;letter-spacing:1.5px}.actions{gap:22px}}
+@media(min-width:1500px){.hero{padding-block:36px}}
+@media(max-width:1000px){.container{width:calc(100% - 64px)}.hero{gap:36px;padding-block:44px}.focus-panel{padding:26px}.hero h1{letter-spacing:-1.8px}.technology-grid{gap:24px}.contact-section{gap:40px}}
+@media(max-width:760px){html{scroll-padding-top:135px}.container{width:calc(100% - 40px)}.header-inner{min-height:104px;flex-wrap:wrap;gap:6px;padding-block:12px}.brand{font-size:25px}nav{width:100%;gap:12px;font-size:12px;justify-content:space-between}nav a{padding:5px 0}.hero{grid-template-columns:1fr;padding-block:32px;gap:38px}h1{font-size:clamp(34px,7.5vw,55px);letter-spacing:-1.6px}.lead{font-size:16px}.focus-panel{padding:28px}.panel-title{font-size:34px}.section{padding-block:36px}.section-header{display:block;margin-bottom:28px}.section-header>p{margin-top:20px}.project-grid,.about-section,.technology-grid,.contact-section{grid-template-columns:1fr}.project-card{padding:26px}.project-card h3{font-size:25px}.about-section{gap:28px}.technology-grid{gap:32px}.contact-section{padding-block:36px;gap:32px}.footer-inner{flex-wrap:wrap;gap:12px;padding-block:24px}.footer-inner p{width:100%;order:3}.eyebrow{font-size:11px;letter-spacing:1.5px}.actions{gap:22px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* Shared compact layout for the four static pages. */
+body{min-height:100vh;display:flex;flex-direction:column}
+main{flex:1}
+nav a[aria-current="page"]{color:var(--accent);text-decoration:underline;text-underline-offset:8px;text-decoration-thickness:2px}
+.section-header h1{font-size:clamp(32px,3.5vw,44px);margin:0}
+.project-card .card-title{font-size:24px;line-height:1.25;letter-spacing:-.6px;margin:0 0 12px}
+.project-top{margin-bottom:18px}
+.tags{margin-bottom:18px}
+.focus-panel{padding:24px}
+.panel-title{font-size:24px;margin:20px 0;letter-spacing:-.6px}
+.focus-list>div{padding:11px 0}
+.panel-link{display:flex;justify-content:space-between;gap:16px;margin-top:6px;padding-top:16px}
+.panel-link:hover{color:var(--accent)}
+.hero-note{margin-top:24px}
+.actions{margin-top:24px}
+.overview{padding-bottom:40px}
+.overview-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:24px;margin-bottom:18px}
+.overview-heading h2{font-size:20px;letter-spacing:-.4px}
+.overview-heading p{font-size:13px;color:var(--body);margin:0}
+.overview-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.overview-grid>a{display:block;border:1px solid var(--line);border-radius:4px;padding:20px;background:var(--white);position:relative}
+.overview-grid>a:hover{border-color:var(--accent)}
+.overview-grid .eyebrow{display:block;font-size:10px;margin-bottom:12px}
+.overview-grid h3{font-size:17px;line-height:1.4;margin-bottom:8px;font-weight:600}
+.overview-grid p{font-size:13px;color:var(--body);margin:0 14px 0 0}
+.overview-arrow{display:block;color:var(--accent);margin-top:12px}
+.contact-section h1{margin-bottom:20px}
+.about-section h1{font-size:clamp(32px,3.5vw,44px)}
+.about-copy .about-intro{font-size:20px}
+@media(max-width:760px){.overview-grid{grid-template-columns:1fr}.overview-heading{display:block}.overview-heading p{margin-top:8px}.overview-grid>a{padding:18px}.overview-arrow{position:absolute;right:18px;top:10px}.overview-grid h3{padding-right:18px}.hero{gap:24px}.section-header{margin-bottom:24px}h1{font-size:clamp(32px,7vw,42px)}.contact-section{gap:24px}.header-inner{min-height:100px}.about-copy p{margin-bottom:14px}}
