@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Bewerte deine Zusammenarbeit mit DRB-Digital. Deine Bewertung wird vor der Veröffentlichung geprüft.">
+  <meta name="theme-color" content="#10151b">
+  <title>Bewertung abgeben — DRB-Digital</title>
+  <link rel="icon" type="image/png" sizes="128x128" href="drb-digital-symbol-transparent-128px.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .review-page{padding-block:48px}
+    .review-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:start}
+    .review-intro h1{font-size:clamp(32px,3.5vw,44px);margin-bottom:20px}
+    .review-intro>p:not(.eyebrow){color:var(--body);max-width:480px}
+    .review-note{margin-top:28px;padding:20px;border:1px solid var(--line);border-left:2px solid var(--accent);background:var(--soft);font-size:13px;color:var(--body)}
+    .review-form{background:var(--white);border:1px solid var(--line);border-top:2px solid var(--accent);border-radius:4px;padding:28px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .field{margin-bottom:18px}.field.full{grid-column:1/-1}
+    label,.field-label{display:block;font-size:13px;font-weight:650;margin-bottom:7px}
+    .optional{font-weight:400;color:var(--body)}
+    input,textarea{width:100%;border:1px solid var(--line);border-radius:3px;background:var(--paper);color:var(--ink);padding:12px 14px;font:inherit}
+    textarea{min-height:160px;resize:vertical}
+    input:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:2px;border-color:transparent}
+    .stars{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:5px}
+    .stars input{position:absolute;opacity:0;pointer-events:none;width:1px}
+    .stars label{cursor:pointer;font-size:32px;line-height:1;color:#607080;margin:0}
+    .stars label:hover,.stars label:hover~label,.stars input:checked~label{color:#ffc400}
+    .consent{display:flex;gap:11px;align-items:flex-start;color:var(--body);font-size:13px}
+    .consent input{width:auto;margin-top:5px;accent-color:var(--accent)}
+    .review-form .button{border:0;cursor:pointer;margin-top:8px}
+    .review-form .button:disabled{opacity:.55;cursor:not-allowed}
+    .form-status{margin:18px 0 0;padding:12px 14px;border:1px solid var(--line);border-radius:3px;font-size:13px}
+    .form-status.success{border-color:#278b61}.form-status.error{border-color:#b94a4a}
+    .hp{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+    @media(max-width:760px){.review-page{padding-block:32px}.review-layout{grid-template-columns:1fr;gap:26px}.review-form{padding:22px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+  </style>
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand brand-logo" href="index.html" aria-label="DRB-Digital – Startseite">
+      <img src="drb-digital-transparent-600px.png"
+           srcset="drb-digital-transparent-600px.png 600w, drb-digital-transparent-1200px.png 1200w"
+           sizes="(max-width: 760px) 180px, 216px" width="600" height="200"
+           alt="DRB Digital – Digitale Lösungen. Für deine Ziele.">
+    </a>
+    <nav aria-label="Hauptnavigation">
+      <a href="index.html">Start</a>
+      <a href="projekte.html">Projekte</a>
+      <a href="ueber-mich.html">Über mich</a>
+      <a href="news.html">News</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="container review-page">
+  <div class="review-layout">
+    <div class="review-intro">
+      <p class="eyebrow">Deine Erfahrung</p>
+      <h1>Bewertung abgeben.</h1>
+      <p>Du hast mit DRB-Digital zusammengearbeitet? Teile deine Erfahrung. Deine Bewertung hilft dabei, die Zusammenarbeit und die umgesetzten Lösungen transparent darzustellen.</p>
+      <div class="review-note">
+        <strong>Vor der Veröffentlichung geprüft.</strong><br>
+        Deine Bewertung wird zunächst als ausstehend gespeichert und erst nach Prüfung veröffentlicht.
+        Deine E-Mail-Adresse dient ausschließlich der internen Zuordnung oder für Rückfragen und wird nicht öffentlich angezeigt.
+      </div>
+    </div>
+
+    <form class="review-form" id="review-form" novalidate>
+      <div class="form-grid">
+        <div class="field">
+          <label for="name">Name *</label>
+          <input id="name" name="name" type="text" maxlength="120" autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="company">Firma <span class="optional">(optional)</span></label>
+          <input id="company" name="company" type="text" maxlength="150" autocomplete="organization">
+        </div>
+
+        <div class="field full">
+          <label for="email">E-Mail-Adresse <span class="optional">(optional, nicht öffentlich)</span></label>
+          <input id="email" name="email" type="email" maxlength="190" autocomplete="email">
+        </div>
+
+        <div class="field full">
+          <span class="field-label">Bewertung *</span>
+          <div class="stars" role="radiogroup" aria-label="Sternebewertung">
+            <input type="radio" id="star5" name="rating" value="5" required><label for="star5" title="5 Sterne">★</label>
+            <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 Sterne">★</label>
+            <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 Sterne">★</label>
+            <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 Sterne">★</label>
+            <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 Stern">★</label>
+          </div>
+        </div>
+
+        <div class="field full">
+          <label for="content">Deine Bewertung *</label>
+          <textarea id="content" name="content" minlength="10" maxlength="3000" required
+                    placeholder="Wie war die Zusammenarbeit? Was hat dir besonders gefallen?"></textarea>
+        </div>
+      </div>
+
+      <div class="hp" aria-hidden="true">
+        <label for="website">Website</label>
+        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <label class="consent">
+        <input type="checkbox" name="consent" value="1" required>
+        <span>Ich stimme zu, dass meine Angaben zur Prüfung der Bewertung verarbeitet werden und Name, Firma sowie Bewertung nach Freigabe veröffentlicht werden dürfen. Meine E-Mail-Adresse wird nicht veröffentlicht. *</span>
+      </label>
+
+      <button class="button primary" id="submit-review" type="submit">
+        Bewertung absenden <span aria-hidden="true">↗</span>
+      </button>
+      <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <a class="brand brand-footer" href="index.html" aria-label="DRB-Digital – Startseite">
+      <img src="drb-digital-symbol-transparent-128px.png" width="36" height="36" alt="">
+      <span>DRB-Digital</span>
+    </a>
+    <p>Webentwicklung & Infrastruktur</p>
+    <a href="#top">Nach oben <span aria-hidden="true">↑</span></a>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const form = document.getElementById('review-form');
+  const button = document.getElementById('submit-review');
+  const status = document.getElementById('form-status');
+
+  // Öffentlicher Endpunkt aus DRB Kundenbewertungen v1.2.0.
+  const endpoint = 'https://github.drb-digital.de/drb-testimonials/api/submit';
+
+  const showStatus = (message, type) => {
+    status.textContent = message;
+    status.className = 'form-status ' + type;
+    status.hidden = false;
+  };
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    status.hidden = true;
+
+    if (!form.reportValidity()) return;
+
+    const data = new FormData(form);
+    const payload = {
+      name: data.get('name'),
+      company: data.get('company') || null,
+      email: data.get('email') || null,
+      rating: Number(data.get('rating')),
+      content: data.get('content'),
+      consent: data.get('consent') === '1',
+      website: data.get('website') || ''
+    };
+
+    button.disabled = true;
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Die Bewertung konnte nicht gesendet werden.');
+      }
+
+      showStatus(
+        result.message || 'Vielen Dank. Deine Bewertung wurde übermittelt und wartet auf Freigabe.',
+        'success'
+      );
+      form.reset();
+    } catch (error) {
+      showStatus(
+        error.message || 'Beim Senden ist ein Fehler aufgetreten. Bitte versuche es später erneut.',
+        'error'
+      );
+    } finally {
+      button.disabled = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
