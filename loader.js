@@ -1,18 +1,14 @@
 (() => {
   const loader = document.getElementById('page-loader');
   if (!loader || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  // Never delay a ready page solely to display branding.
-  if (document.readyState === 'complete') return;
-  let finished = false;
-  const finish = () => {
-    if (finished) return;
-    finished = true;
-    loader.classList.add('is-finished');
-    window.setTimeout(() => { loader.hidden = true; }, 220);
-  };
+  // Intro appears only on index.html and lasts four seconds, including its fade.
   loader.hidden = false;
-  window.addEventListener('load', finish, { once: true });
-  window.addEventListener('pageshow', finish, { once: true });
-  document.addEventListener('keydown', finish, { once: true });
-  window.setTimeout(finish, 2500);
+  const finish = () => { loader.classList.add('is-finished'); };
+  const hide = () => { loader.hidden = true; };
+  window.setTimeout(finish, 3800);
+  window.setTimeout(hide, 4000);
+  // Back/forward cache restores must not replay or leave a stale overlay.
+  window.addEventListener('pageshow', (event) => { if (event.persisted) hide(); });
+  // Keyboard navigation remains immediately usable.
+  document.addEventListener('keydown', hide, { once: true });
 })();

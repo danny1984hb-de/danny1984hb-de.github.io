@@ -12,9 +12,20 @@
 <body id="top">
 <div class="page-loader" id="page-loader" hidden aria-hidden="true">
   <div class="loader-content">
-    <img src="drb-digital-symbol-transparent-128px.png" width="88" height="88" alt="">
-    <p class="loader-name">DRB-Digital</p>
-    <p class="loader-label">Seite wird geladen …</p>
+    <svg class="circuit" viewBox="0 0 360 240" fill="none" aria-hidden="true">
+      <g class="circuit-traces">
+        <path d="M0 45H80L115 80H140M0 120H140M0 195H80L115 160H140M360 45H280L245 80H220M360 120H220M360 195H280L245 160H220M155 0V80M205 0V80M155 240V160M205 240V160"/>
+      </g>
+      <g class="circuit-signals">
+        <path pathLength="100" d="M0 45H80L115 80H140M0 120H140M0 195H80L115 160H140M360 45H280L245 80H220M360 120H220M360 195H280L245 160H220"/>
+      </g>
+      <rect class="chip" x="140" y="80" width="80" height="80" rx="10"/>
+      <rect class="chip-inner" x="152" y="92" width="56" height="56" rx="5"/>
+      <path class="chip-code" d="M172 110L161 120L172 130M188 110L199 120L188 130M184 106L176 134"/>
+      <g class="circuit-nodes"><circle cx="80" cy="45" r="3"/><circle cx="80" cy="195" r="3"/><circle cx="280" cy="45" r="3"/><circle cx="280" cy="195" r="3"/></g>
+    </svg>
+    <p class="loader-name">Code. Systeme. Verbindungen.</p>
+    <p class="loader-label">Willkommen bei DRB-Digital</p>
     <div class="loader-track"></div>
   </div>
 </div>
