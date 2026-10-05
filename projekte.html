@@ -10,6 +10,13 @@
   <link rel="stylesheet" href="styles.css">
   <style>
     .project-image{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:12px;margin:0 0 18px;border:1px solid var(--line)}
+    .project-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+    .project-status-badge{font-size:.78rem;padding:5px 9px;border:1px solid var(--line);border-radius:999px;color:var(--body);background:var(--soft)}
+    .project-client{margin:-2px 0 12px;color:var(--body);font-size:.92rem}
+    .project-client strong{color:var(--ink)}
+    .project-description{margin-top:10px;color:var(--body)}
+    .project-links{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px}
+    .project-featured{border-color:var(--accent)}
   </style>
 </head>
 <body id="top">
@@ -22,51 +29,38 @@
 <section class="projects-section section" id="projects" aria-labelledby="projects-title"><div class="container">
 <div class="section-header"><div><p class="eyebrow">Projekte</p><h1 id="projects-title">Woran ich arbeite.</h1></div><p>Eigene Plattformen, Werkzeuge und Systeme.<br>Ein Einblick in meine Entwicklungsprojekte.</p></div>
 <div id="project-grid" class="project-grid" aria-live="polite">
-<article class="project-card"><div class="project-top"><span class="project-category">Plattform & Hosting</span><span class="project-number" aria-hidden="true">01</span></div><h2 class="card-title">DRB-Digital</h2><p>Der gemeinsame Ausgangspunkt für meine Entwicklungs-, Hosting- und IT-Projekte.</p><ul class="tags" aria-label="Schwerpunkte"><li>Entwicklung</li><li>Hosting</li><li>Automatisierung</li></ul><a class="project-link" href="https://drb-digital.de">DRB-Digital besuchen <span aria-hidden="true">↗</span></a></article>
-<article class="project-card"><div class="project-top"><span class="project-category">Content Management</span><span class="project-number" aria-hidden="true">02</span></div><h2 class="card-title">DRB CMS</h2><p>Eine eigene CMS-Plattform mit Plugin-, Update- und Lizenzsystem.</p><ul class="tags" aria-label="Technologien"><li>PHP</li><li>Laravel</li><li>MariaDB</li></ul><p class="project-caption">Eigene CMS-Entwicklung</p></article>
-<article class="project-card"><div class="project-top"><span class="project-category">Schnittstellen & Automatisierung</span><span class="project-number" aria-hidden="true">03</span></div><h2 class="card-title">DRB Bot</h2><p>Eine Discord-Bot-Plattform mit Webportal, REST API, Ticket-System und Automatisierungen.</p><ul class="tags" aria-label="Schwerpunkte"><li>Discord</li><li>REST API</li><li>Automatisierung</li></ul><p class="project-caption">Bots & vernetzte Anwendungen</p></article>
-<article class="project-card"><div class="project-top"><span class="project-category">Plugins & Server-Netzwerke</span><span class="project-number" aria-hidden="true">04</span></div><h2 class="card-title">Minecraft Development</h2><p>Eigene Plugins, individuelle Spielinhalte und Server-Systeme für Minecraft-Netzwerke.</p><ul class="tags" aria-label="Technologien"><li>Java</li><li>Paper</li><li>Velocity</li></ul><p class="project-caption">Individuelle Systeme & Erweiterungen</p></article>
+<article class="project-card"><div class="project-top"><span class="project-category">Plattform & Hosting</span><span class="project-number" aria-hidden="true">01</span></div><h2 class="card-title">DRB-Digital</h2><p>Der gemeinsame Ausgangspunkt für meine Entwicklungs-, Hosting- und IT-Projekte.</p><ul class="tags"><li>Entwicklung</li><li>Hosting</li><li>Automatisierung</li></ul><a class="project-link" href="https://drb-digital.de">DRB-Digital besuchen <span aria-hidden="true">↗</span></a></article>
+<article class="project-card"><div class="project-top"><span class="project-category">Content Management</span><span class="project-number" aria-hidden="true">02</span></div><h2 class="card-title">DRB CMS</h2><p>Eine eigene CMS-Plattform mit Plugin-, Update- und Lizenzsystem.</p><ul class="tags"><li>PHP</li><li>Laravel</li><li>MariaDB</li></ul><p class="project-caption">Eigene CMS-Entwicklung</p></article>
+<article class="project-card"><div class="project-top"><span class="project-category">Schnittstellen & Automatisierung</span><span class="project-number" aria-hidden="true">03</span></div><h2 class="card-title">DRB Bot</h2><p>Eine Discord-Bot-Plattform mit Webportal, REST API, Ticket-System und Automatisierungen.</p><ul class="tags"><li>Discord</li><li>REST API</li><li>Automatisierung</li></ul><p class="project-caption">Bots & vernetzte Anwendungen</p></article>
+<article class="project-card"><div class="project-top"><span class="project-category">Plugins & Server-Netzwerke</span><span class="project-number" aria-hidden="true">04</span></div><h2 class="card-title">Minecraft Development</h2><p>Eigene Plugins, individuelle Spielinhalte und Server-Systeme für Minecraft-Netzwerke.</p><ul class="tags"><li>Java</li><li>Paper</li><li>Velocity</li></ul><p class="project-caption">Individuelle Systeme & Erweiterungen</p></article>
 </div>
 <p id="project-status" class="project-caption" role="status"></p>
 </div></section>
 </main>
-<footer class="site-footer"><div class="container footer-inner"><a class="brand brand-footer" href="index.html" aria-label="DRB-Digital – Startseite"><img src="drb-digital-symbol-transparent-128px.png" width="36" height="36" alt=""><span>DRB-Digital</span></a><p>Webentwicklung & Infrastruktur</p><a href="#top">Nach oben <span aria-hidden="true">↑</span></a></div></footer>
+<footer class="site-footer"><div class="container footer-inner"><a class="brand brand-footer" href="index.html"><img src="drb-digital-symbol-transparent-128px.png" width="36" height="36" alt=""><span>DRB-Digital</span></a><p>Webentwicklung & Infrastruktur</p><a href="#top">Nach oben <span aria-hidden="true">↑</span></a></div></footer>
 <script>
 (() => {
-  const API = 'https://github.drb-digital.de/drb-projects/api/public';
-  const grid = document.getElementById('project-grid');
-  const status = document.getElementById('project-status');
-  const fallback = grid.innerHTML;
-  const esc = (value = '') => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[char]);
-  const typeLabel = type => ({own:'Eigenes Projekt',customer:'Kundenprojekt',reference:'Referenz'})[type] || type || 'Projekt';
-  const statusLabel = value => ({active:'Aktives Projekt',completed:'Abgeschlossen',planned:'Geplant',archived:'Archiviert'})[value] || value || 'Projekt';
-  const safeUrl = value => {
-    if (!value) return '';
-    try { const url = new URL(value, window.location.href); return ['http:','https:'].includes(url.protocol) ? url.href : ''; }
-    catch (_) { return ''; }
-  };
-  const render = projects => {
-    grid.innerHTML = projects.map((project,index) => {
-      const technologies = Array.isArray(project.technologies) ? project.technologies : [];
-      const tags = technologies.length ? '<ul class="tags" aria-label="Technologien">' + technologies.map(t => '<li>'+esc(t)+'</li>').join('') + '</ul>' : '';
-      const projectUrl=safeUrl(project.project_url), githubUrl=safeUrl(project.github_url), imageUrl=safeUrl(project.image_url);
-      const image = imageUrl ? '<img class="project-image" src="'+esc(imageUrl)+'" alt="'+esc(project.title || 'Projekt')+'" loading="lazy">' : '';
-      const links=[
-        projectUrl ? '<a class="project-link" href="'+esc(projectUrl)+'" target="_blank" rel="noopener noreferrer">Projekt besuchen <span aria-hidden="true">↗</span></a>' : '',
-        githubUrl ? '<a class="project-link" href="'+esc(githubUrl)+'" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>' : ''
-      ].filter(Boolean).join(' ');
-      return '<article class="project-card">'+image+
-        '<div class="project-top"><span class="project-category">'+esc(typeLabel(project.type))+'</span><span class="project-number" aria-hidden="true">'+String(index+1).padStart(2,'0')+'</span></div>'+
-        '<h2 class="card-title">'+esc(project.title || 'Projekt')+'</h2>'+
-        '<p>'+esc(project.summary || project.description || '')+'</p>'+tags+links+
-        (!links ? '<p class="project-caption">'+esc(statusLabel(project.status))+'</p>' : '')+
-        '</article>';
-    }).join('');
-  };
-  fetch(API,{headers:{'Accept':'application/json'}})
-    .then(response=>{if(!response.ok) throw new Error('HTTP '+response.status); return response.json();})
-    .then(payload=>{const projects=Array.isArray(payload.data)?payload.data:[]; if(!projects.length){grid.innerHTML=fallback;return;} render(projects);status.textContent='';})
-    .catch(()=>{grid.innerHTML=fallback;status.textContent='';});
+ const API='https://github.drb-digital.de/drb-projects/api/public',grid=document.getElementById('project-grid'),status=document.getElementById('project-status'),fallback=grid.innerHTML;
+ const esc=(v='')=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[c]);
+ const typeLabel=t=>({own:'Eigenes Projekt',customer:'Kundenprojekt',reference:'Referenz'})[t]||t||'Projekt';
+ const statusLabel=s=>({active:'Aktiv',completed:'Abgeschlossen',planned:'Geplant',archived:'Archiviert'})[s]||s||'Projekt';
+ const safeUrl=v=>{if(!v)return'';try{const u=new URL(v,location.href);return['http:','https:'].includes(u.protocol)?u.href:''}catch(_){return''}};
+ const render=projects=>{
+  grid.innerHTML=projects.map((p,i)=>{
+   const tech=Array.isArray(p.technologies)?p.technologies:[], projectUrl=safeUrl(p.project_url), githubUrl=safeUrl(p.github_url), imageUrl=safeUrl(p.image_url);
+   const image=imageUrl?'<img class="project-image" src="'+esc(imageUrl)+'" alt="'+esc(p.title||'Projekt')+'" loading="lazy">':'';
+   const tags=tech.length?'<ul class="tags" aria-label="Technologien">'+tech.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'';
+   const client=p.client?'<p class="project-client"><strong>Kunde:</strong> '+esc(p.client)+'</p>':'';
+   const summary=p.summary?'<p>'+esc(p.summary)+'</p>':'';
+   const description=p.description && p.description!==p.summary?'<p class="project-description">'+esc(p.description)+'</p>':'';
+   const links=[projectUrl?'<a class="project-link" href="'+esc(projectUrl)+'" target="_blank" rel="noopener noreferrer">Projekt besuchen <span aria-hidden="true">↗</span></a>':'',githubUrl?'<a class="project-link" href="'+esc(githubUrl)+'" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>':''].filter(Boolean).join('');
+   return '<article class="project-card'+(p.is_featured?' project-featured':'')+'">'+image+
+    '<div class="project-meta"><span class="project-category">'+esc(typeLabel(p.type))+'</span><span class="project-status-badge">'+esc(statusLabel(p.status))+'</span>'+(p.is_featured?'<span class="project-status-badge">Hervorgehoben</span>':'')+'</div>'+
+    '<div class="project-top"><h2 class="card-title">'+esc(p.title||'Projekt')+'</h2><span class="project-number" aria-hidden="true">'+String(i+1).padStart(2,'0')+'</span></div>'+
+    client+summary+description+tags+(links?'<div class="project-links">'+links+'</div>':'')+'</article>';
+  }).join('');
+ };
+ fetch(API,{headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw new Error();return r.json()}).then(x=>{const p=Array.isArray(x.data)?x.data:[];if(!p.length){grid.innerHTML=fallback;return}render(p);status.textContent=''}).catch(()=>{grid.innerHTML=fallback;status.textContent=''});
 })();
 </script>
 </body>
