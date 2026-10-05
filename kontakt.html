@@ -15,6 +15,23 @@
     .imprint-data{color:var(--body);line-height:1.7;margin:0}
     .imprint-data a{color:inherit;text-decoration:none}.imprint-data a:hover{color:var(--accent)}
     .imprint-extra{white-space:pre-line;margin-top:12px}
+    .contact-form-section{padding-top:20px;padding-bottom:80px}
+    .contact-form{border:1px solid var(--line);background:var(--soft);border-radius:18px;padding:26px}
+    .contact-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .contact-form label>span{display:block;color:var(--ink);font-size:.9rem;margin-bottom:8px}
+    .contact-form input[type="text"],.contact-form input[type="email"],.contact-form textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);padding:13px 14px;font:inherit;outline:none}
+    .contact-form textarea{resize:vertical;min-height:170px}
+    .contact-form input:focus,.contact-form textarea:focus{border-color:var(--accent)}
+    .contact-message{display:block;margin-top:18px}
+    .contact-consent{display:flex;gap:10px;align-items:flex-start;margin-top:18px;color:var(--body)}
+    .contact-consent>span{margin:0!important;color:var(--body)!important}
+    .contact-submit{border:0;border-radius:10px;background:var(--accent);color:#fff;font:inherit;font-weight:700;padding:12px 18px;cursor:pointer}
+    .contact-submit:disabled{opacity:.6;cursor:wait}
+    .contact-form-footer{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:20px}
+    #contact-form-status{margin:0;color:var(--body)}
+    #contact-form-status.success{color:#77d69a} #contact-form-status.error{color:#ff8b8b}
+    .contact-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+    @media(max-width:760px){.contact-form-grid{grid-template-columns:1fr}.contact-form{padding:20px}}
   </style>
 </head>
 <body id="top">
@@ -31,6 +48,22 @@
 <a href="https://github.com/danny1984hb-de"><span><small>Code & Projekte</small>GitHub-Profil</span><span aria-hidden="true">↗</span></a>
 <div id="imprint" class="imprint-block" aria-live="polite"><small>Rechtliches</small><h2>Impressum</h2><p class="imprint-data">Impressumsdaten werden geladen …</p></div>
 </div>
+</section>
+
+<section class="container contact-form-section" aria-labelledby="contact-form-title">
+  <div class="section-header"><div><p class="eyebrow">Direkt schreiben</p><h2 id="contact-form-title">Kontakt aufnehmen.</h2></div><p>Beschreibe kurz dein Anliegen. Nach dem Absenden erhältst du eine Vorgangsnummer.</p></div>
+  <form id="contact-form" class="contact-form">
+    <div class="contact-form-grid">
+      <label><span>Name *</span><input type="text" name="name" maxlength="120" autocomplete="name" required></label>
+      <label><span>E-Mail *</span><input type="email" name="email" maxlength="190" autocomplete="email" required></label>
+      <label><span>Firma <small>(optional)</small></span><input type="text" name="company" maxlength="150" autocomplete="organization"></label>
+      <label><span>Betreff *</span><input type="text" name="subject" maxlength="190" required></label>
+    </div>
+    <label class="contact-message"><span>Nachricht *</span><textarea name="message" minlength="10" maxlength="10000" rows="8" required></textarea></label>
+    <label class="contact-honeypot" aria-hidden="true">Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+    <label class="contact-consent"><input type="checkbox" name="consent" required><span>Ich stimme zu, dass meine Angaben zur Bearbeitung meiner Anfrage verarbeitet werden. *</span></label>
+    <div class="contact-form-footer"><button type="submit" class="contact-submit">Nachricht senden <span aria-hidden="true">→</span></button><p id="contact-form-status" role="status"></p></div>
+  </form>
 </section>
 </main>
 <footer class="site-footer"><div class="container footer-inner"><a class="brand brand-footer" href="index.html" aria-label="DRB-Digital – Startseite"><img src="drb-digital-symbol-transparent-128px.png" width="36" height="36" alt=""><span>DRB-Digital</span></a><p>Webentwicklung & Infrastruktur</p><a href="#top">Nach oben <span aria-hidden="true">↑</span></a></div></footer>
@@ -56,6 +89,29 @@
      (d.additional_text?'<p class="imprint-data imprint-extra">'+esc(d.additional_text)+'</p>':'');
  })
  .catch(()=>{box.innerHTML='<small>Rechtliches</small><h2>Impressum</h2><p class="imprint-data">Die Impressumsdaten konnten momentan nicht geladen werden.</p>';});
+})();
+</script>
+<script>
+(() => {
+ const form=document.getElementById('contact-form'), status=document.getElementById('contact-form-status');
+ if(!form) return;
+ form.addEventListener('submit', async event => {
+   event.preventDefault();
+   const button=form.querySelector('button[type="submit"]');
+   status.className=''; status.textContent='Wird gesendet …'; button.disabled=true;
+   const fd=new FormData(form);
+   const data={name:fd.get('name'),email:fd.get('email'),company:fd.get('company')||null,subject:fd.get('subject'),message:fd.get('message'),website:fd.get('website')||'',consent:fd.get('consent')?'1':''};
+   try{
+     const response=await fetch('https://github.drb-digital.de/drb-contact/api/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
+     const result=await response.json().catch(()=>({}));
+     if(!response.ok) throw new Error(result.message||'Die Nachricht konnte nicht gesendet werden.');
+     status.className='success';
+     status.textContent=(result.message||'Vielen Dank. Deine Anfrage wurde übermittelt.')+(result.reference?' Vorgangsnummer: '+result.reference:'');
+     form.reset();
+   }catch(error){
+     status.className='error'; status.textContent=error.message||'Die Nachricht konnte nicht gesendet werden.';
+   }finally{button.disabled=false}
+ });
 })();
 </script>
 </body>
