@@ -113,3 +113,12 @@ nav a[aria-current="page"]{color:var(--accent);text-decoration:underline;text-un
 .about-section h1{font-size:clamp(32px,3.5vw,44px)}
 .about-copy .about-intro{font-size:20px}
 @media(max-width:760px){.overview-grid{grid-template-columns:1fr}.overview-heading{display:block}.overview-heading p{margin-top:8px}.overview-grid>a{padding:18px}.overview-arrow{position:absolute;right:18px;top:10px}.overview-grid h3{padding-right:18px}.hero{gap:24px}.section-header{margin-bottom:24px}h1{font-size:clamp(32px,7vw,42px)}.contact-section{gap:24px}.header-inner{min-height:100px}.about-copy p{margin-bottom:14px}}
+
+/* Original DRB-Digital logos; preserve image colors and aspect ratios. */
+.brand-logo{display:inline-flex;align-items:center;flex-shrink:0}
+.brand-logo img{display:block;width:216px;height:auto}
+.header-inner{min-height:86px}
+.brand-footer{display:inline-flex;align-items:center;gap:10px;font-size:16px;letter-spacing:-.3px;font-weight:600}
+.brand-footer img{display:block;width:36px;height:36px}
+.brand-footer span{color:var(--ink)}
+@media(max-width:760px){.brand-logo img{width:180px}.header-inner{min-height:108px;gap:4px;padding-block:8px}.brand-footer{font-size:15px}}
