@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Danny // Developer</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #00ff00;
+            --green-dark: #00b800;
+            --background: #050505;
+            --background-light: #0b0b0b;
+            --card: #101010;
+            --text: #ffffff;
+            --muted: #8d8d8d;
+            --border: #202020;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at 50% 0%, rgba(0,255,0,.08), transparent 35%),
+                var(--background);
+            color: var(--text);
+            font-family: "Segoe UI", Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* GRID BACKGROUND */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(0,255,0,.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,0,.025) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, black, transparent 85%);
+            z-index: -1;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1150px, 90%);
+            margin: auto;
+        }
+
+        /* NAVIGATION */
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5,5,5,.82);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0,255,0,.15);
+        }
+
+        .nav-inner {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: var(--green);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            color: #aaa;
+            font-family: monospace;
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .terminal-line {
+            font-family: monospace;
+            color: var(--green);
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(4rem, 10vw, 8rem);
+            line-height: .9;
+            letter-spacing: -5px;
+        }
+
+        .hero h1 span {
+            color: var(--green);
+            text-shadow: 0 0 25px rgba(0,255,0,.25);
+        }
+
+        .hero h2 {
+            margin-top: 25px;
+            font-size: clamp(1.3rem, 3vw, 2rem);
+            color: #aaa;
+            font-weight: 400;
+        }
+
+        .hero-description {
+            max-width: 700px;
+            margin-top: 25px;
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 35px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            padding: 13px 22px;
+            border: 1px solid var(--green);
+            font-family: monospace;
+            transition: .25s;
+        }
+
+        .button.primary {
+            background: var(--green);
+            color: #000;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            box-shadow: 0 0 25px rgba(0,255,0,.3);
+            transform: translateY(-2px);
+        }
+
+        .status {
+            margin-top: 35px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #aaa;
+            font-family: monospace;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            50% {
+                opacity: .4;
+            }
+        }
+
+        /* SECTIONS */
+
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-family: monospace;
+            color: var(--green);
+            font-size: .95rem;
+            margin-bottom: 10px;
+        }
+
+        .section-heading {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 45px;
+        }
+
+        /* ABOUT */
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .about-text {
+            color: #aaa;
+            font-size: 1.05rem;
+        }
+
+        .about-text p + p {
+            margin-top: 20px;
+        }
+
+        .terminal {
+            background: #080808;
+            border: 1px solid var(--border);
+            padding: 25px;
+            font-family: monospace;
+            box-shadow: 0 0 40px rgba(0,0,0,.5);
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 7px;
+            margin-bottom: 20px;
+        }
+
+        .terminal-header span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #333;
+        }
+
+        .terminal p {
+            margin: 8px 0;
+            color: #aaa;
+        }
+
+        .terminal .green {
+            color: var(--green);
+        }
+
+        /* STACK */
+
+        .stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tech {
+            padding: 10px 17px;
+            border: 1px solid var(--border);
+            background: var(--background-light);
+            font-family: monospace;
+            transition: .25s;
+        }
+
+        .tech:hover {
+            border-color: var(--green);
+            color: var(--green);
+            transform: translateY(-3px);
+        }
+
+        /* PROJECTS */
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .project {
+            min-height: 270px;
+            padding: 30px;
+            background:
+                linear-gradient(135deg, rgba(0,255,0,.04), transparent 50%),
+                var(--card);
+            border: 1px solid var(--border);
+            transition: .3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project::after {
+            content: "";
+            position: absolute;
+            height: 2px;
+            width: 0;
+            left: 0;
+            bottom: 0;
+            background: var(--green);
+            transition: .3s;
+        }
+
+        .project:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0,255,0,.45);
+        }
+
+        .project:hover::after {
+            width: 100%;
+        }
+
+        .project-number {
+            color: var(--green);
+            font-family: monospace;
+            font-size: .85rem;
+        }
+
+        .project h3 {
+            margin-top: 25px;
+            font-size: 1.7rem;
+        }
+
+        .project p {
+            color: var(--muted);
+            margin-top: 15px;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .project-tags span {
+            font-family: monospace;
+            font-size: .75rem;
+            padding: 5px 8px;
+            background: #050505;
+            border: 1px solid #222;
+            color: #aaa;
+        }
+
+        /* INFRA */
+
+        .infra-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .infra-card {
+            padding: 25px 20px;
+            border: 1px solid var(--border);
+            background: var(--background-light);
+        }
+
+        .infra-card strong {
+            display: block;
+            color: var(--green);
+            font-family: monospace;
+            margin-bottom: 8px;
+        }
+
+        .infra-card span {
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        /* CONTACT */
+
+        .contact {
+            text-align: center;
+            padding: 140px 0;
+        }
+
+        .contact h2 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+        }
+
+        .contact h2 span {
+            color: var(--green);
+        }
+
+        .contact p {
+            color: var(--muted);
+            max-width: 600px;
+            margin: 25px auto;
+        }
+
+        /* FOOTER */
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 30px 0;
+            color: #666;
+            font-family: monospace;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        footer span {
+            color: var(--green);
+        }
+
+        @media (max-width: 800px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+
+            .about-grid,
+            .projects {
+                grid-template-columns: 1fr;
+            }
+
+            .infra-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-inner {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .infra-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="container nav-inner">
+
+        <div class="logo">
+            danny<span>@github</span>:~$
+        </div>
+
+        <div class="nav-links">
+            <a href="#about">about</a>
+            <a href="#stack">stack</a>
+            <a href="#projects">projects</a>
+            <a href="#infrastructure">infrastructure</a>
+        </div>
+
+    </div>
+</nav>
+
+
+<main>
+
+    <section class="hero">
+        <div class="container hero-content">
+
+            <div class="terminal-line">
+                &gt; initializing developer profile...
+            </div>
+
+            <h1>
+                DANNY<span>.</span>
+            </h1>
+
+            <h2>
+                Developer • Server • Automation • Open Source
+            </h2>
+
+            <p class="hero-description">
+                Ich entwickle Webanwendungen, eigene Systeme, Plugins und
+                Automatisierungen und beschäftige mich mit Linux-Servern,
+                Hosting und moderner Infrastruktur.
+            </p>
+
+            <div class="buttons">
+                <a class="button primary" href="#projects">
+                    Projekte ansehen
+                </a>
+
+                <a class="button"
+                   href="https://github.com/danny1984hb-de"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    GitHub →
+                </a>
+            </div>
+
+            <div class="status">
+                <div class="status-dot"></div>
+                SYSTEM ONLINE // BUILDING SOMETHING NEW
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="about">
+        <div class="container">
+
+            <div class="section-title">
+                // 01 ABOUT
+            </div>
+
+            <h2 class="section-heading">
+                Entwicklung trifft Infrastruktur.
+            </h2>
+
+            <div class="about-grid">
+
+                <div class="about-text">
+
+                    <p>
+                        Ich arbeite gerne an Projekten, bei denen
+                        Softwareentwicklung und Infrastruktur zusammenkommen.
+                    </p>
+
+                    <p>
+                        Von der ersten Idee über Backend und Datenbank bis hin
+                        zum eigenen Linux-Server möchte ich verstehen und
+                        kontrollieren, wie ein System funktioniert.
+                    </p>
+
+                    <p>
+                        Dabei entstehen Webplattformen, Bots, Plugins,
+                        Automatisierungen und eigene Serverlösungen.
+                    </p>
+
+                </div>
+
+                <div class="terminal">
+
+                    <div class="terminal-header">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <p><span class="green">$</span> whoami</p>
+                    <p>Danny</p>
+
+                    <p><span class="green">$</span> focus</p>
+                    <p>Web Development + Infrastructure</p>
+
+                    <p><span class="green">$</span> environment</p>
+                    <p>Linux / Debian</p>
+
+                    <p><span class="green">$</span> status</p>
+                    <p class="green">ONLINE_</p>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="stack">
+        <div class="container">
+
+            <div class="section-title">
+                // 02 TECH STACK
+            </div>
+
+            <h2 class="section-heading">
+                Tools & Technologien
+            </h2>
+
+            <div class="stack">
+                <div class="tech">PHP</div>
+                <div class="tech">Laravel</div>
+                <div class="tech">Java</div>
+                <div class="tech">JavaScript</div>
+                <div class="tech">HTML5</div>
+                <div class="tech">CSS3</div>
+                <div class="tech">Linux</div>
+                <div class="tech">Debian</div>
+                <div class="tech">Docker</div>
+                <div class="tech">Git</div>
+                <div class="tech">GitHub</div>
+                <div class="tech">MariaDB</div>
+                <div class="tech">MySQL</div>
+                <div class="tech">Proxmox</div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="projects">
+        <div class="container">
+
+            <div class="section-title">
+                // 03 PROJECTS
+            </div>
+
+            <h2 class="section-heading">
+                Was ich entwickle.
+            </h2>
+
+            <div class="projects">
+
+                <article class="project">
+
+                    <div class="project-number">
+                        PROJECT // 01
+                    </div>
+
+                    <h3>DRB-Digital</h3>
+
+                    <p>
+                        Zentrale Plattform für meine Entwicklungs-,
+                        Hosting- und IT-Projekte.
+                    </p>
+
+                    <div class="project-tags">
+                        <span>DEVELOPMENT</span>
+                        <span>HOSTING</span>
+                        <span>AUTOMATION</span>
+                    </div>
+
+                </article>
+
+
+                <article class="project">
+
+                    <div class="project-number">
+                        PROJECT // 02
+                    </div>
+
+                    <h3>DRB CMS</h3>
+
+                    <p>
+                        Entwicklung einer eigenen CMS-Plattform mit
+                        Plugin-, Update- und Lizenzsystem.
+                    </p>
+
+                    <div class="project-tags">
+                        <span>PHP</span>
+                        <span>LARAVEL</span>
+                        <span>MARIADB</span>
+                    </div>
+
+                </article>
+
+
+                <article class="project">
+
+                    <div class="project-number">
+                        PROJECT // 03
+                    </div>
+
+                    <h3>DRB Bot</h3>
+
+                    <p>
+                        Discord-Bot-Plattform mit Webportal, REST API,
+                        Ticket-System und Automatisierungen.
+                    </p>
+
+                    <div class="project-tags">
+                        <span>DISCORD</span>
+                        <span>API</span>
+                        <span>AUTOMATION</span>
+                    </div>
+
+                </article>
+
+
+                <article class="project">
+
+                    <div class="project-number">
+                        PROJECT // 04
+                    </div>
+
+                    <h3>Minecraft Development</h3>
+
+                    <p>
+                        Entwicklung eigener Minecraft-Systeme,
+                        Server-Netzwerke, Plugins und Custom Content.
+                    </p>
+
+                    <div class="project-tags">
+                        <span>PAPER</span>
+                        <span>VELOCITY</span>
+                        <span>JAVA</span>
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="infrastructure">
+        <div class="container">
+
+            <div class="section-title">
+                // 04 INFRASTRUCTURE
+            </div>
+
+            <h2 class="section-heading">
+                Server & Systeme
+            </h2>
+
+            <div class="infra-grid">
+
+                <div class="infra-card">
+                    <strong>LINUX</strong>
+                    <span>Debian Server</span>
+                </div>
+
+                <div class="infra-card">
+                    <strong>VIRTUALIZATION</strong>
+                    <span>Proxmox VE</span>
+                </div>
+
+                <div class="infra-card">
+                    <strong>DATABASE</strong>
+                    <span>MariaDB / MySQL</span>
+                </div>
+
+                <div class="infra-card">
+                    <strong>CONTAINERS</strong>
+                    <span>Docker</span>
+                </div>
+
+                <div class="infra-card">
+                    <strong>WEB</strong>
+                    <span>Nginx / Apache</span>
+                </div>
+
+                <div class="infra-card">
+                    <strong>SECURITY</strong>
+                    <span>Firewall / Fail2Ban</span>
+                </div>
+
+                <div class="infra-card">
+                    <strong>NETWORK</strong>
+                    <span>DNS / Domains</span>
+                </div>
+
+                <div class="infra-card">
+                    <strong>MAIL</strong>
+                    <span>Mail Infrastructure</span>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="contact">
+
+        <div class="container">
+
+            <div class="section-title">
+                // CONNECT
+            </div>
+
+            <h2>
+                Let's build <span>something.</span>
+            </h2>
+
+            <p>
+                Entwicklung, Server, Automatisierung und neue Ideen –
+                meine Projekte findest du auf GitHub und DRB-Digital.
+            </p>
+
+            <div class="buttons" style="justify-content:center">
+
+                <a class="button primary"
+                   href="https://drb-digital.de"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    drb-digital.de
+                </a>
+
+                <a class="button"
+                   href="https://github.com/danny1984hb-de"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    GitHub
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    <div class="container footer-inner">
+
+        <div>
+            <span>&gt;</span> danny@github:~$
+        </div>
+
+        <div>
+            CODE • BUILD • DEPLOY • IMPROVE
+        </div>
+
+    </div>
+</footer>
+
+</body>
+</html>
+
