@@ -81,8 +81,28 @@ function dateNode(value) {
   const t = node('time','news-date',new Intl.DateTimeFormat('de-DE',{dateStyle:'medium',timeZone:'Europe/Berlin'}).format(d));
   t.dateTime = d.toISOString(); return t;
 }
+function previewImage(html) {
+  const template = document.createElement('template');
+  template.innerHTML = html;
+  template.content.querySelectorAll('script,style,iframe,object,embed,svg,math,template').forEach(n => n.remove());
+  for (const source of template.content.querySelectorAll('img[src]')) {
+    const src = source.getAttribute('src').trim();
+    if (!src) continue;
+    const u = url(src);
+    if (!u || u.protocol !== 'https:' || u.origin !== origin || u.username || u.password) continue;
+    const image = node('img', 'news-preview');
+    image.src = u.href;
+    image.alt = source.getAttribute('alt') || '';
+    image.width = 640; image.height = 360;
+    image.loading = 'lazy'; image.decoding = 'async';
+    image.addEventListener('error', () => image.remove(), { once: true });
+    return image;
+  }
+  return null;
+}
 function card(post) {
   const article = node('article','news-card');
+  const image = previewImage(post.content); if (image) article.append(image);
   const time = dateNode(post.date); if (time) article.append(time);
   article.append(node('h2','',post.title));
   if (post.summary) article.append(node('p','news-summary',post.summary));

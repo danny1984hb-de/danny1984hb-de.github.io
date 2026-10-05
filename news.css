@@ -14,3 +14,6 @@
 .news-content blockquote{border-left:3px solid var(--accent);padding-left:18px;margin-inline:0;color:var(--body)}
 .news-content table{display:block;max-width:100%;overflow:auto;border-collapse:collapse}
 .news-content td,.news-content th{padding:10px;border:1px solid var(--line)}
+
+/* The first safe article image is also the card preview. */
+.news-preview{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:3px;margin-bottom:18px;background:var(--soft)}
