@@ -8,17 +8,55 @@
   <title>Kontakt — Danny</title>
   <link rel="icon" type="image/png" sizes="128x128" href="drb-digital-symbol-transparent-128px.png">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .imprint-block{border-top:1px solid var(--line);padding:26px 0 4px}
+    .imprint-block small{display:block;color:#9fc7e8;text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;margin-bottom:12px}
+    .imprint-block h2{font-size:1.55rem;margin:0 0 14px;color:var(--ink)}
+    .imprint-data{color:var(--body);line-height:1.7;margin:0}
+    .imprint-data a{color:inherit;text-decoration:none}.imprint-data a:hover{color:var(--accent)}
+    .imprint-extra{white-space:pre-line;margin-top:12px}
+  </style>
 </head>
 <body id="top">
-
 <a class="skip-link" href="#main">Zum Inhalt springen</a>
 <header class="site-header"><div class="container header-inner">
 <a class="brand brand-logo" href="index.html" aria-label="DRB-Digital – Startseite"><img src="drb-digital-transparent-600px.png" srcset="drb-digital-transparent-600px.png 600w, drb-digital-transparent-1200px.png 1200w" sizes="(max-width: 760px) 180px, 216px" width="600" height="200" alt="DRB Digital – Digitale Lösungen. Für deine Ziele."></a>
 <nav aria-label="Hauptnavigation"><a href="index.html">Start</a><a href="projekte.html">Projekte</a><a href="ueber-mich.html">Über mich</a><a href="news.html">News</a><a href="kontakt.html" aria-current="page">Kontakt</a></nav>
 </div></header>
 <main id="main">
-<section class="contact-section container" id="contact" aria-labelledby="contact-title"><div><p class="eyebrow">Kontakt & Austausch</p><h1 id="contact-title">Interesse an<br>meiner Arbeit?</h1><p>Weitere Einblicke in meine Projekte findest du auf GitHub.<br>Für Entwicklung, Hosting und IT geht es zu DRB-Digital.</p></div><div class="contact-links"><a href="https://drb-digital.de"><span><small>Entwicklung & IT</small>DRB-Digital</span><span aria-hidden="true">↗</span></a><a href="https://github.com/danny1984hb-de"><span><small>Code & Projekte</small>GitHub-Profil</span><span aria-hidden="true">↗</span></a></div></section>
+<section class="contact-section container" id="contact" aria-labelledby="contact-title">
+<div><p class="eyebrow">Kontakt & Austausch</p><h1 id="contact-title">Interesse an<br>meiner Arbeit?</h1><p>Weitere Einblicke in meine Projekte findest du auf GitHub.<br>Für Entwicklung, Hosting und IT geht es zu DRB-Digital.</p></div>
+<div class="contact-links">
+<a href="https://drb-digital.de"><span><small>Entwicklung & IT</small>DRB-Digital</span><span aria-hidden="true">↗</span></a>
+<a href="https://github.com/danny1984hb-de"><span><small>Code & Projekte</small>GitHub-Profil</span><span aria-hidden="true">↗</span></a>
+<div id="imprint" class="imprint-block" aria-live="polite"><small>Rechtliches</small><h2>Impressum</h2><p class="imprint-data">Impressumsdaten werden geladen …</p></div>
+</div>
+</section>
 </main>
 <footer class="site-footer"><div class="container footer-inner"><a class="brand brand-footer" href="index.html" aria-label="DRB-Digital – Startseite"><img src="drb-digital-symbol-transparent-128px.png" width="36" height="36" alt=""><span>DRB-Digital</span></a><p>Webentwicklung & Infrastruktur</p><a href="#top">Nach oben <span aria-hidden="true">↑</span></a></div></footer>
+<script>
+(() => {
+ const box=document.getElementById('imprint');
+ const esc=(v='')=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[c]);
+ fetch('https://github.drb-digital.de/drb-contact/api/imprint',{headers:{Accept:'application/json'}})
+ .then(r=>{if(!r.ok)throw new Error();return r.json()})
+ .then(payload=>{
+   const d=payload.data||{};
+   const address=[d.street,[d.postal_code,d.city].filter(Boolean).join(' '),d.country].filter(Boolean);
+   const rows=[];
+   if(d.owner) rows.push('Inhaber: '+esc(d.owner));
+   address.forEach(v=>rows.push(esc(v)));
+   if(d.email) rows.push('E-Mail: <a href="mailto:'+encodeURIComponent(d.email)+'">'+esc(d.email)+'</a>');
+   if(d.phone) rows.push('Telefon: <a href="tel:'+esc(String(d.phone).replace(/[^+0-9]/g,''))+'">'+esc(d.phone)+'</a>');
+   if(d.vat_id) rows.push('USt-IdNr.: '+esc(d.vat_id));
+   if(d.responsible_content) rows.push('Verantwortlich für Inhalte: '+esc(d.responsible_content));
+   box.innerHTML='<small>Rechtliches</small><h2>Impressum</h2>'+
+     (d.business_name?'<h3>'+esc(d.business_name)+'</h3>':'')+
+     '<p class="imprint-data">'+rows.join('<br>')+'</p>'+
+     (d.additional_text?'<p class="imprint-data imprint-extra">'+esc(d.additional_text)+'</p>':'');
+ })
+ .catch(()=>{box.innerHTML='<small>Rechtliches</small><h2>Impressum</h2><p class="imprint-data">Die Impressumsdaten konnten momentan nicht geladen werden.</p>';});
+})();
+</script>
 </body>
 </html>
