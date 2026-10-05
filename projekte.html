@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body id="top">
-
 <a class="skip-link" href="#main">Zum Inhalt springen</a>
 <header class="site-header"><div class="container header-inner">
 <a class="brand brand-logo" href="index.html" aria-label="DRB-Digital – Startseite"><img src="drb-digital-transparent-600px.png" srcset="drb-digital-transparent-600px.png 600w, drb-digital-transparent-1200px.png 1200w" sizes="(max-width: 760px) 180px, 216px" width="600" height="200" alt="DRB Digital – Digitale Lösungen. Für deine Ziele."></a>
@@ -19,13 +18,90 @@
 <main id="main">
 <section class="projects-section section" id="projects" aria-labelledby="projects-title"><div class="container">
 <div class="section-header"><div><p class="eyebrow">Projekte</p><h1 id="projects-title">Woran ich arbeite.</h1></div><p>Eigene Plattformen, Werkzeuge und Systeme.<br>Ein Einblick in meine Entwicklungsprojekte.</p></div>
-<div class="project-grid">
+<div id="project-grid" class="project-grid" aria-live="polite">
 <article class="project-card"><div class="project-top"><span class="project-category">Plattform & Hosting</span><span class="project-number" aria-hidden="true">01</span></div><h2 class="card-title">DRB-Digital</h2><p>Der gemeinsame Ausgangspunkt für meine Entwicklungs-, Hosting- und IT-Projekte.</p><ul class="tags" aria-label="Schwerpunkte"><li>Entwicklung</li><li>Hosting</li><li>Automatisierung</li></ul><a class="project-link" href="https://drb-digital.de">DRB-Digital besuchen <span aria-hidden="true">↗</span></a></article>
 <article class="project-card"><div class="project-top"><span class="project-category">Content Management</span><span class="project-number" aria-hidden="true">02</span></div><h2 class="card-title">DRB CMS</h2><p>Eine eigene CMS-Plattform mit Plugin-, Update- und Lizenzsystem.</p><ul class="tags" aria-label="Technologien"><li>PHP</li><li>Laravel</li><li>MariaDB</li></ul><p class="project-caption">Eigene CMS-Entwicklung</p></article>
 <article class="project-card"><div class="project-top"><span class="project-category">Schnittstellen & Automatisierung</span><span class="project-number" aria-hidden="true">03</span></div><h2 class="card-title">DRB Bot</h2><p>Eine Discord-Bot-Plattform mit Webportal, REST API, Ticket-System und Automatisierungen.</p><ul class="tags" aria-label="Schwerpunkte"><li>Discord</li><li>REST API</li><li>Automatisierung</li></ul><p class="project-caption">Bots & vernetzte Anwendungen</p></article>
 <article class="project-card"><div class="project-top"><span class="project-category">Plugins & Server-Netzwerke</span><span class="project-number" aria-hidden="true">04</span></div><h2 class="card-title">Minecraft Development</h2><p>Eigene Plugins, individuelle Spielinhalte und Server-Systeme für Minecraft-Netzwerke.</p><ul class="tags" aria-label="Technologien"><li>Java</li><li>Paper</li><li>Velocity</li></ul><p class="project-caption">Individuelle Systeme & Erweiterungen</p></article>
-</div></div></section>
+</div>
+<p id="project-status" class="project-caption" role="status"></p>
+</div></section>
 </main>
 <footer class="site-footer"><div class="container footer-inner"><a class="brand brand-footer" href="index.html" aria-label="DRB-Digital – Startseite"><img src="drb-digital-symbol-transparent-128px.png" width="36" height="36" alt=""><span>DRB-Digital</span></a><p>Webentwicklung & Infrastruktur</p><a href="#top">Nach oben <span aria-hidden="true">↑</span></a></div></footer>
+<script>
+(() => {
+  const API = 'https://github.drb-digital.de/drb-projects/api/public';
+  const grid = document.getElementById('project-grid');
+  const status = document.getElementById('project-status');
+  const fallback = grid.innerHTML;
+
+  const esc = (value = '') => String(value).replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+  })[char]);
+
+  const typeLabel = type => ({
+    own: 'Eigenes Projekt',
+    customer: 'Kundenprojekt',
+    reference: 'Referenz'
+  })[type] || type || 'Projekt';
+
+  const statusLabel = value => ({
+    active: 'Aktives Projekt',
+    completed: 'Abgeschlossen',
+    planned: 'Geplant',
+    archived: 'Archiviert'
+  })[value] || value || 'Projekt';
+
+  const safeUrl = value => {
+    if (!value) return '';
+    try {
+      const url = new URL(value, window.location.href);
+      return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+    } catch (_) { return ''; }
+  };
+
+  const render = projects => {
+    grid.innerHTML = projects.map((project, index) => {
+      const technologies = Array.isArray(project.technologies) ? project.technologies : [];
+      const tags = technologies.length
+        ? '<ul class="tags" aria-label="Technologien">' + technologies.map(t => '<li>' + esc(t) + '</li>').join('') + '</ul>'
+        : '';
+      const projectUrl = safeUrl(project.project_url);
+      const githubUrl = safeUrl(project.github_url);
+      const links = [
+        projectUrl ? '<a class="project-link" href="' + esc(projectUrl) + '" target="_blank" rel="noopener noreferrer">Projekt besuchen <span aria-hidden="true">↗</span></a>' : '',
+        githubUrl ? '<a class="project-link" href="' + esc(githubUrl) + '" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>' : ''
+      ].filter(Boolean).join(' ');
+      return '<article class="project-card">' +
+        '<div class="project-top"><span class="project-category">' + esc(typeLabel(project.type)) + '</span><span class="project-number" aria-hidden="true">' + String(index + 1).padStart(2, '0') + '</span></div>' +
+        '<h2 class="card-title">' + esc(project.title || 'Projekt') + '</h2>' +
+        '<p>' + esc(project.summary || project.description || '') + '</p>' +
+        tags + links +
+        (!links ? '<p class="project-caption">' + esc(statusLabel(project.status)) + '</p>' : '') +
+        '</article>';
+    }).join('');
+  };
+
+  fetch(API, { headers: { 'Accept': 'application/json' } })
+    .then(response => {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.json();
+    })
+    .then(payload => {
+      const projects = Array.isArray(payload.data) ? payload.data : [];
+      if (!projects.length) {
+        grid.innerHTML = fallback;
+        status.textContent = '';
+        return;
+      }
+      render(projects);
+      status.textContent = '';
+    })
+    .catch(() => {
+      grid.innerHTML = fallback;
+      status.textContent = '';
+    });
+})();
+</script>
 </body>
 </html>
