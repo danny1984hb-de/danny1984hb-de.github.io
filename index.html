@@ -49,6 +49,16 @@
 <a class="panel-bottom panel-link" href="ueber-mich.html">Über mich & meine Technologien <span aria-hidden="true">↗</span></a></aside>
 </section>
 <section class="container overview" aria-labelledby="overview-title"><div class="overview-heading"><h2 id="overview-title">Mehr entdecken</h2><p>Projekte, Hintergrund und Kontakt.</p></div><div class="overview-grid"><a href="projekte.html"><span class="eyebrow">Projekte</span><h3>Von CMS bis Automatisierung.</h3><p>DRB-Digital, DRB CMS, DRB Bot und Minecraft.</p><span class="overview-arrow" aria-hidden="true">↗</span></a><a href="ueber-mich.html"><span class="eyebrow">Über mich</span><h3>Code und Infrastruktur.</h3><p>Meine Arbeitsweise und die Technologien dahinter.</p><span class="overview-arrow" aria-hidden="true">↗</span></a><a href="kontakt.html"><span class="eyebrow">Kontakt</span><h3>In Verbindung bleiben.</h3><p>Zu meinem GitHub-Profil und zu DRB-Digital.</p><span class="overview-arrow" aria-hidden="true">↗</span></a></div></section>
+<section class="container testimonials-section" aria-labelledby="testimonials-title">
+<div class="section-header"><div><p class="eyebrow">Kundenstimmen</p><h2 id="testimonials-title">Was Kunden sagen.</h2></div><div class="testimonial-actions"><a class="text-link" href="bewertung.html">Bewertung abgeben <span aria-hidden="true">↗</span></a></div></div>
+<div class="testimonial-shell">
+<button class="testimonial-nav testimonial-prev" type="button" aria-label="Vorherige Bewertung">‹</button>
+<div class="testimonial-viewport"><div id="testimonial-track" class="testimonial-track" aria-live="polite"></div></div>
+<button class="testimonial-nav testimonial-next" type="button" aria-label="Nächste Bewertung">›</button>
+</div>
+<p id="testimonial-status" class="testimonial-status" role="status"></p>
+<div id="testimonial-dots" class="testimonial-dots" aria-label="Bewertungen auswählen"></div>
+</section>
 <section class="container home-news" aria-labelledby="home-news-title">
 <div class="section-header"><div><p class="eyebrow">Aktuelles</p><h2 id="home-news-title">Neueste News.</h2></div><a class="text-link" href="news.html">Alle News →</a></div>
 <p id="news-status" role="status" aria-live="polite"></p>
@@ -58,5 +68,29 @@
 </section>
 </main>
 <footer class="site-footer"><div class="container footer-inner"><a class="brand brand-footer" href="index.html" aria-label="DRB-Digital – Startseite"><img src="drb-digital-symbol-transparent-128px.png" width="36" height="36" alt=""><span>DRB-Digital</span></a><p>Webentwicklung & Infrastruktur</p><a href="#top">Nach oben <span aria-hidden="true">↑</span></a></div></footer>
+<script>
+(() => {
+ const endpoint='https://github.drb-digital.de/drb-testimonials/api/public';
+ const track=document.getElementById('testimonial-track'), status=document.getElementById('testimonial-status'), dots=document.getElementById('testimonial-dots');
+ const prev=document.querySelector('.testimonial-prev'), next=document.querySelector('.testimonial-next');
+ let items=[], index=0, timer;
+ const sourceLabel=s=>s==='google'?'Google-Bewertung':s==='customer'?'Kundenbewertung':'Direkte Bewertung';
+ const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+ const perView=()=>innerWidth<=760?1:innerWidth<=1000?2:3;
+ function render(){
+   const count=perView(), max=Math.max(0,items.length-count); index=Math.min(index,max);
+   track.innerHTML=items.map(x=>`<article class="testimonial-card"><div class="testimonial-top"><span class="testimonial-stars" aria-label="${x.rating} von 5 Sternen">${'★'.repeat(x.rating)}${'☆'.repeat(5-x.rating)}</span><span class="testimonial-source">${esc(sourceLabel(x.source))}</span></div><blockquote>“${esc(x.content)}”</blockquote><footer><strong>${esc(x.name)}</strong>${x.company?`<span>${esc(x.company)}</span>`:''}</footer></article>`).join('');
+   track.style.transform=`translateX(calc(-${index} * ((100% - ${(count-1)*16}px) / ${count} + 16px)))`;
+   const pages=max+1; dots.innerHTML=Array.from({length:pages},(_,i)=>`<button type="button" aria-label="Bewertung ${i+1}" class="${i===index?'active':''}" data-i="${i}"></button>`).join('');
+   prev.disabled=index===0; next.disabled=index>=max;
+ }
+ function move(n){const max=Math.max(0,items.length-perView());index=index+n>max?0:index+n<0?max:index+n;render();restart()}
+ function restart(){clearInterval(timer);if(items.length>perView())timer=setInterval(()=>move(1),6500)}
+ prev.addEventListener('click',()=>move(-1));next.addEventListener('click',()=>move(1));
+ dots.addEventListener('click',e=>{if(e.target.dataset.i!==undefined){index=Number(e.target.dataset.i);render();restart()}});
+ addEventListener('resize',render);
+ fetch(endpoint,{headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw new Error();return r.json()}).then(j=>{items=Array.isArray(j.data)?j.data:[];if(!items.length){status.textContent='Noch keine freigegebenen Bewertungen vorhanden.';prev.hidden=next.hidden=true;return}status.textContent='';render();restart()}).catch(()=>{status.textContent='Die Kundenbewertungen konnten gerade nicht geladen werden.';prev.hidden=next.hidden=true});
+})();
+</script>
 </body>
 </html>
