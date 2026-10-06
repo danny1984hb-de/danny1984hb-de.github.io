@@ -105,7 +105,7 @@
     '<div class="project-meta">'+badges+'</div>'+
     '<div class="project-top"><h2 class="card-title">'+esc(p.title||'Projekt')+'</h2><span class="project-number" aria-hidden="true">'+String(i+1).padStart(2,'0')+'</span></div>'+
     summary+previewTags+'</article>'+
-    '<dialog class="project-dialog" id="project-dialog-'+i+'"><div class="project-dialog-inner"><div class="project-dialog-head"><div><div class="project-dialog-meta">'+badges+'</div><h2>'+esc(p.title||'Projekt')+'</h2></div><button class="project-dialog-close" type="button" aria-label="Popup schließen">×</button></div>'+dialogImage+client+'<p class="project-dialog-description">'+esc(fullDescription)+'</p>'+allTags+(links?'<div class="project-links">'+links+'</div>':'')+'</div></dialog>';
+    '<dialog class="project-dialog" id="project-dialog-'+i+'"><div class="project-dialog-inner"><div class="project-dialog-head"><div><div class="project-dialog-meta">'+badges+'</div><h2>'+esc(p.title||'Projekt')+'</h2></div><button class="project-dialog-close" type="button" aria-label="Popup schließen">×</button></div>'+dialogImage+info+'<div class="project-dialog-section"><h3 class="project-dialog-section-title">Über das Projekt</h3><p class="project-dialog-description">'+esc(fullDescription)+'</p></div>'+(allTags?'<div class="project-dialog-section"><h3 class="project-dialog-section-title">Technologien</h3>'+allTags+'</div>':'')+(links?'<div class="project-dialog-section"><h3 class="project-dialog-section-title">Links</h3><div class="project-links">'+links+'</div></div>':'')+'</div></dialog>';
   }).join('');
   grid.querySelectorAll('.project-card[data-project]').forEach(card=>{
    const open=()=>document.getElementById('project-dialog-'+card.dataset.project)?.showModal();
