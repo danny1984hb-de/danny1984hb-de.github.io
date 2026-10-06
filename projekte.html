@@ -9,14 +9,31 @@
   <link rel="icon" type="image/png" sizes="128x128" href="drb-digital-symbol-transparent-128px.png">
   <link rel="stylesheet" href="styles.css">
   <style>
-    .project-image{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:12px;margin:0 0 18px;border:1px solid var(--line)}
-    .project-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
-    .project-status-badge{font-size:.78rem;padding:5px 9px;border:1px solid var(--line);border-radius:999px;color:var(--body);background:var(--soft)}
-    .project-client{margin:-2px 0 12px;color:var(--body);font-size:.92rem}
-    .project-client strong{color:var(--ink)}
-    .project-description{margin-top:10px;color:var(--body)}
-    .project-links{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px}
+    .project-grid{align-items:stretch}
+    .project-card{display:flex;flex-direction:column;padding:15px;min-height:0;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+    .project-card:hover,.project-card:focus-visible{transform:translateY(-2px);border-color:var(--accent);outline:none}
+    .project-image{width:100%;height:92px;object-fit:contain;display:block;border-radius:9px;margin:0 0 10px;border:1px solid var(--line);background:var(--soft)}
+    .project-meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:7px}
+    .project-status-badge{font-size:.66rem;padding:3px 6px;border:1px solid var(--line);border-radius:999px;color:var(--body);background:var(--soft)}
+    .project-card .card-title{margin-bottom:7px}
+    .project-summary{margin:0 0 9px;color:var(--body);font-size:.9rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .project-card .tags{margin-top:auto}
+    .project-card .tags li:nth-child(n+4){display:none}
     .project-featured{border-color:var(--accent)}
+    .project-dialog{width:min(720px,calc(100% - 28px));max-height:88vh;overflow:auto;border:1px solid var(--line);border-radius:16px;background:#101820;color:var(--ink);padding:0}
+    .project-dialog::backdrop{background:rgba(0,0,0,.76);backdrop-filter:blur(4px)}
+    .project-dialog-inner{padding:24px}
+    .project-dialog-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:16px}
+    .project-dialog-head h2{margin:6px 0 0}
+    .project-dialog-close{flex:0 0 auto;border:1px solid var(--line);border-radius:999px;background:var(--soft);color:var(--ink);width:38px;height:38px;cursor:pointer;font-size:1.25rem}
+    .project-dialog-image{width:100%;max-height:260px;object-fit:contain;border:1px solid var(--line);border-radius:12px;background:var(--soft);margin-bottom:18px}
+    .project-dialog-meta{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+    .project-dialog-client{color:var(--body);margin:0 0 12px}
+    .project-dialog-description{color:var(--body);line-height:1.7}
+    .project-dialog .tags{margin-top:18px}
+    .project-links{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px}
+    @media(min-width:1050px){.project-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(max-width:600px){.project-image{height:82px}.project-dialog-inner{padding:18px}}
   </style>
 </head>
 <body id="top">
@@ -42,23 +59,37 @@
 (() => {
  const API='https://github.drb-digital.de/drb-projects/api/public',grid=document.getElementById('project-grid'),status=document.getElementById('project-status'),fallback=grid.innerHTML;
  const esc=(v='')=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[c]);
- const typeLabel=t=>({own:'Eigenes Projekt',customer:'Kundenprojekt',reference:'Referenz'})[t]||t||'Projekt';
- const statusLabel=s=>({active:'Aktiv',completed:'Abgeschlossen',planned:'Geplant',archived:'Archiviert'})[s]||s||'Projekt';
+ const typeLabel=t=>({own:'Eigenes Projekt',client:'Kundenprojekt',customer:'Kundenprojekt',reference:'Referenz'})[t]||t||'Projekt';
+ const statusLabel=s=>({active:'Aktiv',development:'In Entwicklung',planning:'In Planung',planned:'Geplant',completed:'Abgeschlossen',archived:'Archiviert'})[s]||s||'Projekt';
  const safeUrl=v=>{if(!v)return'';try{const u=new URL(v,location.href);return['http:','https:'].includes(u.protocol)?u.href:''}catch(_){return''}};
  const render=projects=>{
   grid.innerHTML=projects.map((p,i)=>{
    const tech=Array.isArray(p.technologies)?p.technologies:[], projectUrl=safeUrl(p.project_url), githubUrl=safeUrl(p.github_url), imageUrl=safeUrl(p.image_url);
-   const image=imageUrl?'<img class="project-image" src="'+esc(imageUrl)+'" alt="'+esc(p.title||'Projekt')+'" loading="lazy">':'';
-   const tags=tech.length?'<ul class="tags" aria-label="Technologien">'+tech.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'';
-   const client=p.client?'<p class="project-client"><strong>Kunde:</strong> '+esc(p.client)+'</p>':'';
-   const summary=p.summary?'<p>'+esc(p.summary)+'</p>':'';
-   const description=p.description && p.description!==p.summary?'<p class="project-description">'+esc(p.description)+'</p>':'';
+   const image=imageUrl?'<img class="project-image" src="'+esc(imageUrl)+'" alt="" loading="lazy">':'';
+   const dialogImage=imageUrl?'<img class="project-dialog-image" src="'+esc(imageUrl)+'" alt="'+esc(p.title||'Projekt')+'" loading="lazy">':'';
+   const previewTech=tech.slice(0,3);
+   const previewTags=previewTech.length?'<ul class="tags" aria-label="Technologien">'+previewTech.map(t=>'<li>'+esc(t)+'</li>').join('')+(tech.length>3?'<li>+'+(tech.length-3)+'</li>':'')+'</ul>':'';
+   const allTags=tech.length?'<ul class="tags" aria-label="Alle Technologien">'+tech.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'';
+   const summary=p.summary?'<p class="project-summary">'+esc(p.summary)+'</p>':'';
+   const fullDescription=p.description||p.summary||'';
+   const client=p.client?'<p class="project-dialog-client"><strong>Kunde:</strong> '+esc(p.client)+'</p>':'';
    const links=[projectUrl?'<a class="project-link" href="'+esc(projectUrl)+'" target="_blank" rel="noopener noreferrer">Projekt besuchen <span aria-hidden="true">↗</span></a>':'',githubUrl?'<a class="project-link" href="'+esc(githubUrl)+'" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>':''].filter(Boolean).join('');
-   return '<article class="project-card'+(p.is_featured?' project-featured':'')+'">'+image+
-    '<div class="project-meta"><span class="project-category">'+esc(typeLabel(p.type))+'</span><span class="project-status-badge">'+esc(statusLabel(p.status))+'</span>'+(p.is_featured?'<span class="project-status-badge">Hervorgehoben</span>':'')+'</div>'+
+   const badges='<span class="project-category">'+esc(typeLabel(p.type))+'</span><span class="project-status-badge">'+esc(statusLabel(p.status))+'</span>';
+   return '<article class="project-card'+(p.is_featured?' project-featured':'')+'" tabindex="0" role="button" aria-haspopup="dialog" aria-controls="project-dialog-'+i+'" data-project="'+i+'">'+image+
+    '<div class="project-meta">'+badges+'</div>'+
     '<div class="project-top"><h2 class="card-title">'+esc(p.title||'Projekt')+'</h2><span class="project-number" aria-hidden="true">'+String(i+1).padStart(2,'0')+'</span></div>'+
-    client+summary+description+tags+(links?'<div class="project-links">'+links+'</div>':'')+'</article>';
+    summary+previewTags+'</article>'+
+    '<dialog class="project-dialog" id="project-dialog-'+i+'"><div class="project-dialog-inner"><div class="project-dialog-head"><div><div class="project-dialog-meta">'+badges+'</div><h2>'+esc(p.title||'Projekt')+'</h2></div><button class="project-dialog-close" type="button" aria-label="Popup schließen">×</button></div>'+dialogImage+client+'<p class="project-dialog-description">'+esc(fullDescription)+'</p>'+allTags+(links?'<div class="project-links">'+links+'</div>':'')+'</div></dialog>';
   }).join('');
+  grid.querySelectorAll('.project-card[data-project]').forEach(card=>{
+   const open=()=>document.getElementById('project-dialog-'+card.dataset.project)?.showModal();
+   card.addEventListener('click',open);
+   card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}});
+  });
+  grid.querySelectorAll('.project-dialog').forEach(d=>{
+   d.querySelector('.project-dialog-close')?.addEventListener('click',()=>d.close());
+   d.addEventListener('click',e=>{if(e.target===d)d.close()});
+  });
  };
  fetch(API,{headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw new Error();return r.json()}).then(x=>{const p=Array.isArray(x.data)?x.data:[];if(!p.length){grid.innerHTML=fallback;return}render(p);status.textContent=''}).catch(()=>{grid.innerHTML=fallback;status.textContent=''});
 })();
