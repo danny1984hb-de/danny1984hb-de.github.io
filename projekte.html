@@ -9,6 +9,13 @@
   <link rel="icon" type="image/png" sizes="128x128" href="drb-digital-symbol-transparent-128px.png">
   <link rel="stylesheet" href="styles.css">
   <style>
+    .project-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 24px}
+    .project-search{flex:1 1 240px;min-width:0;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--ink);font:inherit}
+    .project-search:focus{outline:2px solid var(--accent);outline-offset:2px}
+    .project-filters{display:flex;flex-wrap:wrap;gap:7px}
+    .project-filter{border:1px solid var(--line);border-radius:999px;background:var(--soft);color:var(--body);padding:8px 11px;font:inherit;font-size:.82rem;cursor:pointer}
+    .project-filter:hover,.project-filter[aria-pressed="true"]{border-color:var(--accent);color:var(--ink);background:rgba(48,170,255,.09)}
+    .project-count{width:100%;margin:0;color:var(--body);font-size:.84rem}
     .project-grid{align-items:stretch}
     .project-card{display:flex;flex-direction:column;padding:15px;min-height:0;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease}
     .project-card:hover,.project-card:focus-visible{transform:translateY(-2px);border-color:var(--accent);outline:none}
@@ -45,6 +52,11 @@
 <main id="main">
 <section class="projects-section section" id="projects" aria-labelledby="projects-title"><div class="container">
 <div class="section-header"><div><p class="eyebrow">Projekte</p><h1 id="projects-title">Woran ich arbeite.</h1></div><p>Eigene Plattformen, Werkzeuge und Systeme.<br>Ein Einblick in meine Entwicklungsprojekte.</p></div>
+<div class="project-tools" aria-label="Projektfilter">
+<input id="project-search" class="project-search" type="search" placeholder="Projekte oder Technologien suchen …" aria-label="Projekte durchsuchen">
+<div id="project-filters" class="project-filters" aria-label="Nach Kategorie filtern"></div>
+<p id="project-count" class="project-count"></p>
+</div>
 <div id="project-grid" class="project-grid" aria-live="polite">
 <article class="project-card"><div class="project-top"><span class="project-category">Plattform & Hosting</span><span class="project-number" aria-hidden="true">01</span></div><h2 class="card-title">DRB-Digital</h2><p>Der gemeinsame Ausgangspunkt für meine Entwicklungs-, Hosting- und IT-Projekte.</p><ul class="tags"><li>Entwicklung</li><li>Hosting</li><li>Automatisierung</li></ul><a class="project-link" href="https://drb-digital.de">DRB-Digital besuchen <span aria-hidden="true">↗</span></a></article>
 <article class="project-card"><div class="project-top"><span class="project-category">Content Management</span><span class="project-number" aria-hidden="true">02</span></div><h2 class="card-title">DRB CMS</h2><p>Eine eigene CMS-Plattform mit Plugin-, Update- und Lizenzsystem.</p><ul class="tags"><li>PHP</li><li>Laravel</li><li>MariaDB</li></ul><p class="project-caption">Eigene CMS-Entwicklung</p></article>
@@ -58,6 +70,8 @@
 <script>
 (() => {
  const API='https://github.drb-digital.de/drb-projects/api/public',grid=document.getElementById('project-grid'),status=document.getElementById('project-status'),fallback=grid.innerHTML;
+ const search=document.getElementById('project-search'),filters=document.getElementById('project-filters'),count=document.getElementById('project-count');
+ let allProjects=[],activeCategory='Alle';
  const esc=(v='')=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[c]);
  const typeLabel=t=>({own:'Eigenes Projekt',client:'Kundenprojekt',customer:'Kundenprojekt',reference:'Referenz'})[t]||t||'Projekt';
  const statusLabel=s=>({active:'Aktiv',development:'In Entwicklung',planning:'In Planung',planned:'Geplant',completed:'Abgeschlossen',archived:'Archiviert'})[s]||s||'Projekt';
@@ -74,7 +88,8 @@
    const fullDescription=p.description||p.summary||'';
    const client=p.client?'<p class="project-dialog-client"><strong>Kunde:</strong> '+esc(p.client)+'</p>':'';
    const links=[projectUrl?'<a class="project-link" href="'+esc(projectUrl)+'" target="_blank" rel="noopener noreferrer">Projekt besuchen <span aria-hidden="true">↗</span></a>':'',githubUrl?'<a class="project-link" href="'+esc(githubUrl)+'" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>':''].filter(Boolean).join('');
-   const badges='<span class="project-category">'+esc(typeLabel(p.type))+'</span><span class="project-status-badge">'+esc(statusLabel(p.status))+'</span>';
+   const category=p.category?'<span class="project-status-badge">'+esc(p.category)+'</span>':'';
+   const badges='<span class="project-category">'+esc(typeLabel(p.type))+'</span>'+category+'<span class="project-status-badge">'+esc(statusLabel(p.status))+'</span>';
    return '<article class="project-card'+(p.is_featured?' project-featured':'')+'" tabindex="0" role="button" aria-haspopup="dialog" aria-controls="project-dialog-'+i+'" data-project="'+i+'">'+image+
     '<div class="project-meta">'+badges+'</div>'+
     '<div class="project-top"><h2 class="card-title">'+esc(p.title||'Projekt')+'</h2><span class="project-number" aria-hidden="true">'+String(i+1).padStart(2,'0')+'</span></div>'+
@@ -91,7 +106,27 @@
    d.addEventListener('click',e=>{if(e.target===d)d.close()});
   });
  };
- fetch(API,{headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw new Error();return r.json()}).then(x=>{const p=Array.isArray(x.data)?x.data:[];if(!p.length){grid.innerHTML=fallback;return}render(p);status.textContent=''}).catch(()=>{grid.innerHTML=fallback;status.textContent=''});
+ const applyFilters=()=>{
+  const q=(search.value||'').trim().toLowerCase();
+  const visible=allProjects.filter(p=>{
+   const categoryOk=activeCategory==='Alle'||(p.category||'')===activeCategory;
+   const haystack=[p.title,p.summary,p.description,p.client,p.category,p.type,p.status,...(Array.isArray(p.technologies)?p.technologies:[])].filter(Boolean).join(' ').toLowerCase();
+   return categoryOk&&(!q||haystack.includes(q));
+  });
+  render(visible);
+  count.textContent=visible.length+' von '+allProjects.length+' Projekten';
+ };
+ const setupFilters=()=>{
+  const categories=['Alle',...new Set(allProjects.map(p=>p.category).filter(Boolean))];
+  filters.innerHTML=categories.map(cat=>'<button class="project-filter" type="button" data-category="'+esc(cat)+'" aria-pressed="'+(cat==='Alle'?'true':'false')+'">'+esc(cat)+'</button>').join('');
+  filters.querySelectorAll('.project-filter').forEach(btn=>btn.addEventListener('click',()=>{
+   activeCategory=btn.dataset.category;
+   filters.querySelectorAll('.project-filter').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));
+   applyFilters();
+  }));
+ };
+ search.addEventListener('input',applyFilters);
+ fetch(API,{headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw new Error();return r.json()}).then(x=>{const p=Array.isArray(x.data)?x.data:[];if(!p.length){grid.innerHTML=fallback;return}allProjects=p;setupFilters();applyFilters();status.textContent=''}).catch(()=>{grid.innerHTML=fallback;status.textContent=''});
 })();
 </script>
 </body>
