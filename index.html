@@ -69,14 +69,8 @@
 <section class="container overview" aria-labelledby="overview-title"><div class="overview-heading"><h2 id="overview-title">Mehr entdecken</h2><p>Projekte, Hintergrund und Kontakt.</p></div><div class="overview-grid"><a href="projekte.html"><span class="eyebrow">Projekte</span><h3>Von CMS bis Automatisierung.</h3><p>DRB-Digital, DRB CMS, DRB Bot und Minecraft.</p><span class="overview-arrow" aria-hidden="true">↗</span></a><a href="ueber-mich.html"><span class="eyebrow">Über mich</span><h3>Code und Infrastruktur.</h3><p>Meine Arbeitsweise und die Technologien dahinter.</p><span class="overview-arrow" aria-hidden="true">↗</span></a><a href="kontakt.html"><span class="eyebrow">Kontakt</span><h3>In Verbindung bleiben.</h3><p>Zu meinem GitHub-Profil und zu DRB-Digital.</p><span class="overview-arrow" aria-hidden="true">↗</span></a></div></section>
 <section class="container home-services" aria-labelledby="services-title">
 <div class="section-header"><div><p class="eyebrow">IT-Dienstleistungen</p><h2 id="services-title">Digitale Lösungen aus einer Hand.</h2></div><p>Von der Idee über die Entwicklung bis zum technischen Betrieb.</p></div>
-<div class="service-grid">
-<article class="service-card"><span class="service-number">01</span><h3>Webentwicklung</h3><p>Moderne Webseiten, Portale und individuelle Webanwendungen mit einer erweiterbaren technischen Basis.</p></article>
-<article class="service-card"><span class="service-number">02</span><h3>Software & Plugins</h3><p>Individuelle Erweiterungen, CMS-Lösungen und Plugins für konkrete Anforderungen und Arbeitsabläufe.</p></article>
-<article class="service-card"><span class="service-number">03</span><h3>APIs & Schnittstellen</h3><p>Systeme verbinden, Daten austauschen und bestehende Prozesse über APIs sinnvoll automatisieren.</p></article>
-<article class="service-card"><span class="service-number">04</span><h3>Excel & Datenautomatisierung</h3><p>Strukturierte Tabellen, Auswertungen, Datenimporte und wiederkehrende Abläufe effizienter gestalten.</p></article>
-<article class="service-card"><span class="service-number">05</span><h3>Hosting & Infrastruktur</h3><p>Linux-Server, Hosting, Datenbanken und technische Infrastruktur für zuverlässige Anwendungen.</p></article>
-<article class="service-card"><span class="service-number">06</span><h3>Gaming & Community-Systeme</h3><p>Individuelle Minecraft-, Bot- und Community-Lösungen mit eigenen Erweiterungen und Integrationen.</p></article>
-</div>
+<div id="service-grid" class="service-grid" aria-live="polite"></div>
+<p id="service-status" class="project-caption" role="status"></p>
 </section>
 <section class="container featured-projects" aria-labelledby="featured-projects-title">
 <div class="section-header"><div><p class="eyebrow">Ausgewählte Projekte</p><h2 id="featured-projects-title">Einblick in meine Arbeit.</h2></div><p>Hervorgehobene Projekte aus Entwicklung, Infrastruktur und individuellen Lösungen.</p></div>
@@ -125,6 +119,22 @@
  dots.addEventListener('click',e=>{if(e.target.dataset.i!==undefined){index=Number(e.target.dataset.i);render();restart()}});
  addEventListener('resize',render);
  fetch(endpoint,{headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw new Error();return r.json()}).then(j=>{items=Array.isArray(j.data)?j.data:[];if(!items.length){status.textContent='Noch keine freigegebenen Bewertungen vorhanden.';prev.hidden=next.hidden=true;return}status.textContent='';render();restart()}).catch(()=>{status.textContent='Die Kundenbewertungen konnten gerade nicht geladen werden.';prev.hidden=next.hidden=true});
+})();
+</script>
+<script>
+(() => {
+ const endpoint='https://github.drb-digital.de/drb-services/api/public';
+ const grid=document.getElementById('service-grid'),status=document.getElementById('service-status');
+ const esc=(v='')=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+ fetch(endpoint,{headers:{Accept:'application/json'}})
+  .then(r=>{if(!r.ok)throw new Error();return r.json()})
+  .then(j=>{
+   const services=(Array.isArray(j.data)?j.data:[]).filter(s=>Number(s.is_featured)===1||s.is_featured===true);
+   if(!services.length){status.textContent='Aktuell sind keine Dienstleistungen für die Startseite freigegeben.';return}
+   grid.innerHTML=services.map((s,i)=>'<article class="service-card"><span class="service-number">'+String(i+1).padStart(2,'0')+'</span><h3>'+esc(s.title||'Dienstleistung')+'</h3><p>'+esc(s.summary||'')+'</p></article>').join('');
+   status.textContent='';
+  })
+  .catch(()=>{status.textContent='Die Dienstleistungen konnten gerade nicht geladen werden.'});
 })();
 </script>
 <script>
