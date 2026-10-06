@@ -35,12 +35,17 @@
     .project-dialog-close{flex:0 0 auto;border:1px solid var(--line);border-radius:999px;background:var(--soft);color:var(--ink);width:38px;height:38px;cursor:pointer;font-size:1.25rem}
     .project-dialog-image{width:100%;max-height:260px;object-fit:contain;border:1px solid var(--line);border-radius:12px;background:var(--soft);margin-bottom:18px}
     .project-dialog-meta{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
-    .project-dialog-client{color:var(--body);margin:0 0 12px}
-    .project-dialog-description{color:var(--body);line-height:1.7}
-    .project-dialog .tags{margin-top:18px}
+    .project-dialog-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 18px}
+    .project-dialog-info-item{padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--soft)}
+    .project-dialog-info-label{display:block;margin-bottom:4px;color:var(--body);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em}
+    .project-dialog-info-value{display:block;color:var(--ink);font-size:.9rem;font-weight:700;overflow-wrap:anywhere}
+    .project-dialog-section{margin-top:20px}
+    .project-dialog-section-title{margin:0 0 8px;color:var(--ink);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}
+    .project-dialog-description{margin:0;color:var(--body);line-height:1.7}
+    .project-dialog .tags{margin-top:0}
     .project-links{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px}
     @media(min-width:1050px){.project-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-    @media(max-width:600px){.project-image{height:82px}.project-dialog-inner{padding:18px}}
+    @media(max-width:600px){.project-image{height:82px}.project-dialog-inner{padding:18px}.project-dialog-info{grid-template-columns:1fr 1fr}}
   </style>
 </head>
 <body id="top">
@@ -86,7 +91,13 @@
    const allTags=tech.length?'<ul class="tags" aria-label="Alle Technologien">'+tech.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'';
    const summary=p.summary?'<p class="project-summary">'+esc(p.summary)+'</p>':'';
    const fullDescription=p.description||p.summary||'';
-   const client=p.client?'<p class="project-dialog-client"><strong>Kunde:</strong> '+esc(p.client)+'</p>':'';
+   const infoItems=[
+    ['Projekttyp',typeLabel(p.type)],
+    ['Kategorie',p.category||'—'],
+    ['Status',statusLabel(p.status)],
+    ...(p.client?[['Kunde',p.client]]:[])
+   ];
+   const info='<div class="project-dialog-info">'+infoItems.map(([label,value])=>'<div class="project-dialog-info-item"><span class="project-dialog-info-label">'+esc(label)+'</span><span class="project-dialog-info-value">'+esc(value)+'</span></div>').join('')+'</div>';
    const links=[projectUrl?'<a class="project-link" href="'+esc(projectUrl)+'" target="_blank" rel="noopener noreferrer">Projekt besuchen <span aria-hidden="true">↗</span></a>':'',githubUrl?'<a class="project-link" href="'+esc(githubUrl)+'" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>':''].filter(Boolean).join('');
    const category=p.category?'<span class="project-status-badge">'+esc(p.category)+'</span>':'';
    const badges='<span class="project-category">'+esc(typeLabel(p.type))+'</span>'+category+'<span class="project-status-badge">'+esc(statusLabel(p.status))+'</span>';
