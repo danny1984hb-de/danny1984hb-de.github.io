@@ -11,7 +11,22 @@
 <style>
 .home-services,.featured-projects{padding-top:24px;padding-bottom:48px}
 .service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.service-card{border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:20px}
+.service-card{border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:20px;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.service-card:hover,.service-card:focus-visible{transform:translateY(-2px);border-color:var(--accent);outline:none}
+.service-dialog{width:min(720px,calc(100% - 32px));max-height:85vh;overflow:auto;border:1px solid var(--line);border-radius:18px;background:#111a22;color:inherit;padding:0;box-shadow:0 24px 80px rgba(0,0,0,.45)}
+.service-dialog::backdrop{background:rgba(4,9,14,.78);backdrop-filter:blur(4px)}
+.service-dialog-inner{padding:28px}
+.service-dialog-top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+.service-dialog-top h2{margin:5px 0 0}
+.service-dialog-close{border:1px solid var(--line);background:var(--soft);color:inherit;border-radius:999px;width:38px;height:38px;cursor:pointer;font-size:1.2rem}
+.service-dialog-description{color:var(--body);line-height:1.7;margin:22px 0}
+.service-dialog-section{margin-top:22px}
+.service-dialog-section h3{margin:0 0 10px;font-size:1rem}
+.service-tags{display:flex;flex-wrap:wrap;gap:8px}
+.service-tags span{font-size:.78rem;padding:6px 9px;border:1px solid var(--line);border-radius:999px;color:var(--body)}
+.service-features{margin:0;padding-left:20px;color:var(--body);line-height:1.8}
+.service-dialog-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
+.service-price{color:var(--body);font-size:.9rem}
 .service-card .service-number{display:inline-block;margin-bottom:18px;color:var(--accent);font-size:.76rem;font-weight:700;letter-spacing:.08em}
 .service-card h3{margin:0 0 9px}
 .service-card p{margin:0;color:var(--body);line-height:1.6}
@@ -24,7 +39,7 @@
 .featured-project-card .project-link{margin-top:auto}
 .featured-project-footer{margin-top:20px}
 @media(max-width:900px){.service-grid,.featured-project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:620px){.service-grid,.featured-project-grid{grid-template-columns:1fr}}
+@media(max-width:620px){.service-grid,.featured-project-grid{grid-template-columns:1fr}.service-dialog-inner{padding:20px}.service-dialog-footer{align-items:flex-start;flex-direction:column}}
 </style>
 <link rel="stylesheet" href="news.css">
 <script src="news.js" defer></script>
@@ -71,6 +86,18 @@
 <div class="section-header"><div><p class="eyebrow">IT-Dienstleistungen</p><h2 id="services-title">Digitale Lösungen aus einer Hand.</h2></div><p>Von der Idee über die Entwicklung bis zum technischen Betrieb.</p></div>
 <div id="service-grid" class="service-grid" aria-live="polite"></div>
 <p id="service-status" class="project-caption" role="status"></p>
+<dialog id="service-dialog" class="service-dialog" aria-labelledby="service-dialog-title">
+  <div class="service-dialog-inner">
+    <div class="service-dialog-top">
+      <div><p id="service-dialog-category" class="eyebrow"></p><h2 id="service-dialog-title"></h2></div>
+      <button id="service-dialog-close" class="service-dialog-close" type="button" aria-label="Fenster schließen">×</button>
+    </div>
+    <p id="service-dialog-description" class="service-dialog-description"></p>
+    <div id="service-features-wrap" class="service-dialog-section"><h3>Leistungen</h3><ul id="service-dialog-features" class="service-features"></ul></div>
+    <div id="service-technologies-wrap" class="service-dialog-section"><h3>Technologien</h3><div id="service-dialog-technologies" class="service-tags"></div></div>
+    <div class="service-dialog-footer"><span id="service-dialog-price" class="service-price"></span><a id="service-dialog-inquiry" class="button primary" href="kontakt.html">Anfrage senden <span aria-hidden="true">↗</span></a></div>
+  </div>
+</dialog>
 </section>
 <section class="container featured-projects" aria-labelledby="featured-projects-title">
 <div class="section-header"><div><p class="eyebrow">Ausgewählte Projekte</p><h2 id="featured-projects-title">Einblick in meine Arbeit.</h2></div><p>Hervorgehobene Projekte aus Entwicklung, Infrastruktur und individuellen Lösungen.</p></div>
@@ -125,16 +152,42 @@
 (() => {
  const endpoint='https://github.drb-digital.de/drb-services/api/public';
  const grid=document.getElementById('service-grid'),status=document.getElementById('service-status');
+ const dialog=document.getElementById('service-dialog'),close=document.getElementById('service-dialog-close');
+ const title=document.getElementById('service-dialog-title'),category=document.getElementById('service-dialog-category');
+ const description=document.getElementById('service-dialog-description'),features=document.getElementById('service-dialog-features');
+ const technologies=document.getElementById('service-dialog-technologies'),price=document.getElementById('service-dialog-price');
+ const inquiry=document.getElementById('service-dialog-inquiry'),featuresWrap=document.getElementById('service-features-wrap');
+ const technologiesWrap=document.getElementById('service-technologies-wrap');
  const esc=(v='')=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+ let services=[];
+ function openService(i){
+   const s=services[i]; if(!s)return;
+   title.textContent=s.title||'Dienstleistung';
+   category.textContent=s.category||'IT-Dienstleistung';
+   description.textContent=s.description||s.summary||'';
+   const f=Array.isArray(s.features)?s.features:[];
+   features.innerHTML=f.map(x=>'<li>'+esc(x)+'</li>').join('');
+   featuresWrap.hidden=!f.length;
+   const t=Array.isArray(s.technologies)?s.technologies:[];
+   technologies.innerHTML=t.map(x=>'<span>'+esc(x)+'</span>').join('');
+   technologiesWrap.hidden=!t.length;
+   price.textContent=s.price_note||'Individuelles Angebot';
+   inquiry.href=s.inquiry_url||'kontakt.html';
+   dialog.showModal();
+ }
  fetch(endpoint,{headers:{Accept:'application/json'}})
   .then(r=>{if(!r.ok)throw new Error();return r.json()})
   .then(j=>{
-   const services=(Array.isArray(j.data)?j.data:[]).filter(s=>Number(s.is_featured)===1||s.is_featured===true);
+   services=(Array.isArray(j.data)?j.data:[]).filter(s=>Number(s.is_featured)===1||s.is_featured===true);
    if(!services.length){status.textContent='Aktuell sind keine Dienstleistungen für die Startseite freigegeben.';return}
-   grid.innerHTML=services.map((s,i)=>'<article class="service-card"><span class="service-number">'+String(i+1).padStart(2,'0')+'</span><h3>'+esc(s.title||'Dienstleistung')+'</h3><p>'+esc(s.summary||'')+'</p></article>').join('');
+   grid.innerHTML=services.map((s,i)=>'<article class="service-card" tabindex="0" role="button" data-service="'+i+'" aria-label="'+esc((s.title||'Dienstleistung')+' – Details anzeigen')+'"><span class="service-number">'+String(i+1).padStart(2,'0')+'</span><h3>'+esc(s.title||'Dienstleistung')+'</h3><p>'+esc(s.summary||'')+'</p></article>').join('');
    status.textContent='';
   })
   .catch(()=>{status.textContent='Die Dienstleistungen konnten gerade nicht geladen werden.'});
+ grid.addEventListener('click',e=>{const card=e.target.closest('[data-service]');if(card)openService(Number(card.dataset.service))});
+ grid.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-service]')){e.preventDefault();openService(Number(e.target.dataset.service))}});
+ close.addEventListener('click',()=>dialog.close());
+ dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
 })();
 </script>
 <script>
