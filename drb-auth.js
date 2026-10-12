@@ -127,6 +127,7 @@ async function loadProfile(){
   $('account-name').textContent=result.user?.name||'Kunde';
   $('account-email').textContent=result.user?.email||'Keine E-Mail-Adresse';
   fillForm($('profile-form'),result.profile,FIELDNAMES);
+  if(!result.profile?.customer_type)$('profile-form').elements.customer_type.value='private';
   $('connected-accounts').textContent=result.connected?.length?'Verknüpft: '+result.connected.join(', '):'Noch keine Social-Verknüpfung vorhanden.';
   renderAddresses(result.addresses);
   $('profile-area').hidden=false;
