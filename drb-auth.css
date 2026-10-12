@@ -1,0 +1,53 @@
+
+/* DRB Customer Manager v0.4 – separate authentication pages */
+.auth-layout{width:min(100%,1070px);margin:0 auto;padding:60px 0 90px}
+.auth-head{text-align:center;margin-bottom:32px}
+.auth-head .eyebrow{margin:0 0 12px}
+.auth-head h1{font-size:clamp(32px,4.5vw,52px);margin:0 0 13px}
+.auth-head p{color:var(--body);max-width:690px;margin:0 auto;line-height:1.75}
+.auth-columns{display:grid;grid-template-columns:1.25fr .95fr;gap:22px;align-items:start}
+.auth-panel{background:var(--white);border:1px solid var(--line);border-radius:19px;padding:30px;min-width:0}
+.auth-panel h2{font-size:25px;margin:0 0 10px;letter-spacing:-.5px}
+.auth-panel .intro{font-size:14px;color:var(--body);margin:0 0 22px}
+.auth-form{display:grid;gap:16px}
+.auth-field label{display:block;font-size:13px;font-weight:700;margin:0 0 7px}
+.auth-field input,.auth-field select,.auth-field textarea{display:block;width:100%;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--ink);font:inherit;box-sizing:border-box}
+.auth-field textarea{min-height:86px;resize:vertical}
+.auth-field input:focus,.auth-field select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.auth-fieldset{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.auth-full{grid-column:1/-1}
+.auth-primary,.auth-secondary{display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:12px 18px;border-radius:10px;font:inherit;font-size:14px;font-weight:750;cursor:pointer;border:1px solid var(--accent);text-decoration:none}
+.auth-primary{background:var(--accent);color:#071521}
+.auth-secondary{background:transparent;color:var(--ink)}
+.auth-primary:hover{background:#65caff;color:#071521;text-decoration:none}
+.auth-secondary:hover{color:var(--accent);text-decoration:none}
+.auth-primary:disabled{opacity:.65;cursor:wait}
+.auth-helper{font-size:13px;color:var(--body);margin:17px 0 0}
+.auth-helper a{color:var(--accent);font-weight:700}
+.auth-message{padding:11px 13px;background:var(--soft);border-left:3px solid var(--accent);border-radius:7px;font-size:13px;color:var(--ink);margin:0 0 16px;line-height:1.6;white-space:pre-line}
+.auth-message.error{border-color:#f08282}
+.auth-message.success{border-color:#64c993}
+.auth-message[hidden]{display:none}
+.auth-provider-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.auth-provider{display:flex;gap:11px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:11px;background:var(--soft);min-width:0;transition:border-color .2s}
+.auth-provider:hover{border-color:var(--accent);text-decoration:none}
+.auth-provider[aria-disabled="true"]{opacity:.55;cursor:not-allowed}
+.auth-provider span:first-child{display:grid;place-items:center;flex:0 0 31px;height:31px;border:1px solid var(--line);border-radius:7px;font-size:11px;font-weight:800}
+.auth-provider strong{font-size:13px;line-height:1.1}
+.auth-provider small{display:block;font-size:10px;color:var(--body);margin-top:3px}
+.auth-note{font-size:12px;color:var(--body);line-height:1.7;margin-top:16px}
+.auth-note a{color:var(--accent)}
+.auth-check{display:flex;gap:12px;align-items:flex-start;font-size:12px;color:var(--body)}
+.auth-check input{margin-top:5px}
+.auth-profile-nav{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:17px 20px;background:var(--soft);border:1px solid var(--line);border-radius:12px;margin-bottom:22px}
+.auth-profile-nav p{margin:0}
+.auth-profile-nav strong{display:block}
+.auth-profile-nav small{display:block;color:var(--body)}
+.auth-profile-layout{display:grid;grid-template-columns:1fr;gap:22px}
+.auth-address-card{padding:16px;margin:9px 0;border:1px solid var(--line);border-radius:12px;background:var(--soft);font-size:13px;white-space:pre-line}
+.auth-address-actions{display:flex;gap:8px;margin-top:10px}
+.auth-address-actions button{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:8px;padding:7px 11px;background:var(--white);color:var(--ink);cursor:pointer}
+.auth-address-actions button:hover{border-color:var(--accent)}
+.auth-secondary-link{color:var(--accent);font-size:13px;font-weight:700}
+@media(max-width:800px){.auth-layout{padding:35px 0 55px}.auth-columns{grid-template-columns:1fr}.auth-panel{padding:22px}}
+@media(max-width:480px){.auth-fieldset,.auth-provider-grid{grid-template-columns:1fr}.auth-profile-nav{flex-direction:column;align-items:flex-start}.auth-panel{padding:19px}}
