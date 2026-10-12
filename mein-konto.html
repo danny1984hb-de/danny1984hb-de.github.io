@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Verwalte dein DRB Kundenprofil, Kontaktdaten und Rechnungs- sowie Lieferadressen auf GitHub Pages."><meta name="theme-color" content="#10151b">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://drb-homepage.de; form-action 'self'; base-uri 'none'; object-src 'none'; upgrade-insecure-requests">
+<title>Mein Kundenkonto – DRB-Digital</title>
+<link rel="icon" type="image/png" sizes="128x128" href="drb-digital-symbol-transparent-128px.png">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="drb-auth.css">
+<script src="drb-auth.js" defer></script>
+</head>
+<body id="top" data-drb-page="profile"><a class="skip-link" href="#main">Zum Inhalt springen</a>
+<header class="site-header"><div class="container header-inner">
+<a class="brand brand-logo" href="index.html" aria-label="DRB-Digital – Startseite"><img src="drb-digital-transparent-600px.png" srcset="drb-digital-transparent-600px.png 600w, drb-digital-transparent-1200px.png 1200w" sizes="(max-width: 760px) 180px, 216px" width="600" height="200" alt="DRB Digital"></a>
+<nav aria-label="Hauptnavigation"><a href="index.html">Start</a><a href="projekte.html">Projekte</a><a href="ueber-mich.html">Über mich</a><a href="news.html">News</a><a href="kontakt.html">Kontakt</a><a class="account-nav-link" href="konto.html" aria-current="page">Kundenkonto</a></nav></div></header>
+<main id="main" class="container"><div class="auth-layout">
+<section class="auth-head"><p class="eyebrow">DRB Kundenportal</p><h1>Mein Kundenkonto.</h1><p>Deine Kundendaten und Adressen bearbeiten, ohne die GitHub Page zu verlassen.</p></section>
+<p class="auth-message" id="auth-status" hidden></p>
+<p class="auth-helper" id="profile-login-link" hidden>Bitte zuerst <a href="anmelden.html">anmelden</a>.</p>
+<div id="profile-area" class="auth-profile-layout" hidden>
+<div class="auth-profile-nav"><p><strong id="account-name">Kundenkonto</strong><small id="account-email"></small></p><button id="logout-button" type="button" class="auth-secondary">Abmelden</button></div>
+<section class="auth-panel" aria-labelledby="my-profile"><h2 id="my-profile">Meine Kundendaten</h2><p class="intro">Privat oder geschäftlich, mit Kontakt-E-Mail, Telefon und Mobilnummer.</p>
+<form id="profile-form" class="auth-form">
+<div class="auth-field"><label for="customer_type">Kundentyp</label><select id="customer_type" name="customer_type" required><option value="private">Privatkunde</option><option value="business">Geschäftskunde</option></select></div>
+<div class="auth-fieldset"><div class="auth-field"><label for="a-first_name">Vorname *</label><input id="a-first_name" name="first_name" type="text" required autocomplete="given-name" maxlength="190" placeholder=""></div><div class="auth-field"><label for="a-last_name">Nachname *</label><input id="a-last_name" name="last_name" type="text" required autocomplete="family-name" maxlength="190" placeholder=""></div><div class="auth-field"><label for="a-company">Firma</label><input id="a-company" name="company" type="text"   maxlength="190" placeholder=""></div><div class="auth-field"><label for="a-vat_id">USt-IdNr.</label><input id="a-vat_id" name="vat_id" type="text"   maxlength="40" placeholder=""></div><div class="auth-field"><label for="a-contact_email">Kontakt-E-Mail *</label><input id="a-contact_email" name="contact_email" type="email" required autocomplete="email" maxlength="190" placeholder=""></div><div class="auth-field"><label for="a-phone">Telefon</label><input id="a-phone" name="phone" type="tel"   maxlength="50" placeholder=""></div><div class="auth-field"><label for="a-mobile">Mobil</label><input id="a-mobile" name="mobile" type="tel"   maxlength="50" placeholder=""></div></div>
+<button type="submit" class="auth-primary">Kundendaten speichern</button>
+</form></section>
+<section class="auth-panel" aria-labelledby="my-addresses"><h2 id="my-addresses">Meine Adressen</h2><p class="intro">Mehrere Rechnungs- und Lieferadressen verwalten.</p>
+<div id="addresses-list"></div>
+<h3 style="margin:24px 0 15px;font-size:19px">Adresse hinzufügen oder bearbeiten</h3>
+<form id="address-form" class="auth-form"><input type="hidden" name="id">
+<div class="auth-fieldset">
+<div class="auth-field"><label for="a-label">Bezeichnung *</label><input id="a-label" name="label" type="text" required  maxlength="100" placeholder="z. B. Privatadresse"></div>
+<div class="auth-field"><label for="a-type">Adressart *</label><select name="type" id="a-type"><option value="billing">Rechnungsadresse</option><option value="shipping">Lieferadresse</option><option value="both">Beides</option></select></div>
+<div class="auth-field"><label for="a-first_name">Vorname *</label><input id="a-first_name" name="first_name" type="text" required  maxlength="100" placeholder=""></div><div class="auth-field"><label for="a-last_name">Nachname *</label><input id="a-last_name" name="last_name" type="text" required  maxlength="100" placeholder=""></div>
+<div class="auth-field"><label for="a-company">Firma</label><input id="a-company" name="company" type="text"   maxlength="190" placeholder=""></div>
+<div class="auth-field"><label for="a-street">Straße *</label><input id="a-street" name="street" type="text" required  maxlength="190" placeholder=""></div><div class="auth-field"><label for="a-house_number">Hausnummer *</label><input id="a-house_number" name="house_number" type="text" required  maxlength="30" placeholder=""></div>
+<div class="auth-field"><label for="a-address_line_2">Adresszusatz</label><input id="a-address_line_2" name="address_line_2" type="text"   maxlength="190" placeholder=""></div>
+<div class="auth-field"><label for="a-postal_code">Postleitzahl *</label><input id="a-postal_code" name="postal_code" type="text" required  maxlength="25" placeholder=""></div><div class="auth-field"><label for="a-city">Ort *</label><input id="a-city" name="city" type="text" required  maxlength="120" placeholder=""></div>
+<div class="auth-field"><label for="a-country">Land (ISO-Code) *</label><input id="a-country" name="country" type="text" required  maxlength="2" placeholder="DE"></div>
+</div>
+<label class="auth-check"><input type="checkbox" name="default_billing"><span>Als Standard-Rechnungsadresse verwenden</span></label>
+<label class="auth-check"><input type="checkbox" name="default_shipping"><span>Als Standard-Lieferadresse verwenden</span></label>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="auth-primary" type="submit">Adresse speichern</button><button class="auth-secondary" id="address-cancel" type="button">Zurücksetzen</button></div>
+</form></section>
+<section class="auth-panel" aria-labelledby="account-links"><h2 id="account-links">Verknüpfte Anmeldungen</h2><p class="intro" id="connected-accounts"></p><p class="auth-note">Zusätzliche Anmeldeanbieter verbinden oder trennen: <a class="auth-secondary-link" href="https://drb-homepage.de/drb-customers">Social-Accounts verwalten (Azuriom) ↗</a>. Die Lizenzverwaltung folgt später.</p></section>
+</div></div></main>
+<footer class="site-footer"><div class="container footer-inner"><a class="brand brand-footer" href="index.html"><img src="drb-digital-symbol-transparent-128px.png" width="36" height="36" alt=""><span>DRB-Digital</span></a><p>Webentwicklung &amp; Infrastruktur</p><a href="#top">Nach oben ↑</a></div></footer>
+</body></html>
