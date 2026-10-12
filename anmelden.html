@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Melde dich mit E-Mail oder GitHub, Google, Discord, Steam, Microsoft, Twitch oder Apple im DRB Kundenkonto an."><meta name="theme-color" content="#10151b">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://drb-homepage.de; form-action 'self'; base-uri 'none'; object-src 'none'; upgrade-insecure-requests">
+<title>Anmelden – DRB-Digital</title>
+<link rel="icon" type="image/png" sizes="128x128" href="drb-digital-symbol-transparent-128px.png">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="drb-auth.css">
+<script src="drb-auth.js" defer></script>
+</head>
+<body id="top" data-drb-page="login"><a class="skip-link" href="#main">Zum Inhalt springen</a>
+<header class="site-header"><div class="container header-inner">
+<a class="brand brand-logo" href="index.html" aria-label="DRB-Digital – Startseite"><img src="drb-digital-transparent-600px.png" srcset="drb-digital-transparent-600px.png 600w, drb-digital-transparent-1200px.png 1200w" sizes="(max-width: 760px) 180px, 216px" width="600" height="200" alt="DRB Digital"></a>
+<nav aria-label="Hauptnavigation"><a href="index.html">Start</a><a href="projekte.html">Projekte</a><a href="ueber-mich.html">Über mich</a><a href="news.html">News</a><a href="kontakt.html">Kontakt</a><a class="account-nav-link" href="konto.html" aria-current="page">Kundenkonto</a></nav></div></header>
+<main id="main" class="container"><div class="auth-layout">
+<section class="auth-head"><p class="eyebrow">DRB Kundenportal</p><h1>Willkommen zurück.</h1><p>Melde dich sicher bei deinem Kundenkonto an. Dein Konto und deine Daten werden durch das Azuriom-Backend verwaltet.</p></section>
+<p class="auth-message" id="auth-status" hidden></p>
+<div class="auth-columns">
+<section class="auth-panel" aria-labelledby="login-title"><h2 id="login-title">Mit E-Mail anmelden</h2><p class="intro">Dein bestehendes Benutzerkonto funktioniert weiterhin.</p>
+<form class="auth-form" id="login-form" autocomplete="on">
+<div class="auth-field"><label for="login">E-Mail oder Benutzername</label><input id="login" name="login" type="text" autocomplete="username" maxlength="190" required></div>
+<div class="auth-field"><label for="password">Passwort</label><input id="password" name="password" type="password" autocomplete="current-password" maxlength="4096" required></div>
+<button class="auth-primary" type="submit">Anmelden ↗</button>
+</form>
+<p class="auth-helper">Noch kein Konto? <a href="registrieren.html">Kostenlos registrieren</a></p>
+<p class="auth-helper">Passwort vergessen? <a href="https://drb-homepage.de/user/password/reset">Passwort zurücksetzen</a></p>
+</section>
+<aside class="auth-panel" aria-labelledby="social-title"><h2 id="social-title">Mit deinem Konto anmelden</h2><p class="intro">Wähle einen Anbieter. Bei der ersten Anmeldung wird – sofern freigeschaltet – ein Konto erstellt. Bestehende Konten zuerst verknüpfen.</p>
+<div class="auth-provider-grid" aria-label="Social Login Anbieter">
+<a class="auth-provider" data-social="github" href="anmelden.html?provider=github" aria-label="Mit GitHub anmelden"><span aria-hidden="true">GH</span><span><strong>GitHub</strong><small>Verfügbarkeit wird geprüft</small></span></a>
+<a class="auth-provider" data-social="google" href="anmelden.html?provider=google" aria-label="Mit Google anmelden"><span aria-hidden="true">G</span><span><strong>Google</strong><small>Verfügbarkeit wird geprüft</small></span></a>
+<a class="auth-provider" data-social="discord" href="anmelden.html?provider=discord" aria-label="Mit Discord anmelden"><span aria-hidden="true">DC</span><span><strong>Discord</strong><small>Verfügbarkeit wird geprüft</small></span></a>
+<a class="auth-provider" data-social="steam" href="anmelden.html?provider=steam" aria-label="Mit Steam anmelden"><span aria-hidden="true">ST</span><span><strong>Steam</strong><small>Verfügbarkeit wird geprüft</small></span></a>
+<a class="auth-provider" data-social="microsoft" href="anmelden.html?provider=microsoft" aria-label="Mit Microsoft anmelden"><span aria-hidden="true">MS</span><span><strong>Microsoft</strong><small>Verfügbarkeit wird geprüft</small></span></a>
+<a class="auth-provider" data-social="twitch" href="anmelden.html?provider=twitch" aria-label="Mit Twitch anmelden"><span aria-hidden="true">TW</span><span><strong>Twitch</strong><small>Verfügbarkeit wird geprüft</small></span></a>
+<a class="auth-provider" data-social="apple" href="anmelden.html?provider=apple" aria-label="Mit Apple anmelden"><span aria-hidden="true">AP</span><span><strong>Apple</strong><small>Verfügbarkeit wird geprüft</small></span></a>
+</div>
+<p class="auth-note">Die Autorisierung erfolgt sicher beim jeweiligen Anbieter und über <a href="https://drb-homepage.de">drb-homepage.de</a>. Danach gelangst du zurück auf diese GitHub Page.</p>
+</aside>
+</div></div></main>
+<footer class="site-footer"><div class="container footer-inner"><a class="brand brand-footer" href="index.html"><img src="drb-digital-symbol-transparent-128px.png" width="36" height="36" alt=""><span>DRB-Digital</span></a><p>Webentwicklung &amp; Infrastruktur</p><a href="#top">Nach oben ↑</a></div></footer>
+</body></html>
