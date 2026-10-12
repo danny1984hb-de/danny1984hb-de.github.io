@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="DRB Kundenkonto: sicher anmelden oder registrieren – mit E-Mail, GitHub, Google, Discord, Steam, Microsoft, Twitch und Apple.">
+  <meta name="theme-color" content="#10151b">
+  <title>Kundenkonto – DRB-Digital</title>
+  <link rel="icon" type="image/png" sizes="128x128" href="drb-digital-symbol-transparent-128px.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .account-hero{padding-block:64px 36px;text-align:center}
+    .account-hero .eyebrow{margin-bottom:12px}
+    .account-hero h1{font-size:clamp(36px,5vw,58px);margin:0 0 18px}
+    .account-hero p:not(.eyebrow){max-width:690px;margin:0 auto;color:var(--body);font-size:16px;line-height:1.75}
+    .account-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:16px 0 40px}
+    .account-card{border:1px solid var(--line);border-radius:18px;background:var(--white);padding:30px;scroll-margin-top:140px}
+    .account-card h2{font-size:26px;letter-spacing:-.5px;margin:0 0 12px}
+    .account-card p{font-size:14px;color:var(--body);line-height:1.7;min-height:55px}
+    .account-card .button{width:100%;justify-content:center;margin-top:10px;border-radius:10px}
+    .account-alt{display:block;margin-top:18px;font-size:13px;color:var(--body)}
+    .account-alt a{color:var(--accent);font-weight:700}
+    .account-provider-wrap{border:1px solid var(--line);border-radius:18px;background:var(--soft);padding:32px;margin-bottom:26px}
+    .account-provider-wrap h2{font-size:25px;letter-spacing:-.4px;margin:0 0 8px}
+    .account-provider-wrap>p{font-size:14px;color:var(--body);margin-bottom:24px}
+    .account-providers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .account-provider{display:flex;gap:11px;align-items:center;padding:14px 15px;background:var(--white);border:1px solid var(--line);border-radius:12px;min-height:65px;transition:border-color .2s,transform .2s}
+    .account-provider:hover,.account-provider:focus-visible{border-color:var(--accent);transform:translateY(-2px);text-decoration:none}
+    .account-provider-icon{display:grid;place-items:center;width:34px;height:34px;border:1px solid var(--line);border-radius:9px;color:var(--ink);font-size:15px;font-weight:750;flex-shrink:0}
+    .account-provider-text{display:flex;flex-direction:column;line-height:1.4}
+    .account-provider-text strong{font-size:14px;font-weight:700}
+    .account-provider-text small{font-size:11px;color:var(--body)}
+    .account-help{border-left:3px solid var(--accent);padding:18px 22px;background:var(--white);margin-bottom:70px;border-radius:0 12px 12px 0}
+    .account-help h2{font-size:18px;letter-spacing:0;margin:0 0 10px}
+    .account-help p{font-size:13px;color:var(--body);line-height:1.75;margin:0}
+    .account-help p+p{margin-top:10px}
+    @media(max-width:900px){.account-providers{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:690px){.account-hero{padding-block:38px 26px}.account-cards{grid-template-columns:1fr;gap:12px}.account-card{padding:24px}.account-card p{min-height:0}.account-provider-wrap{padding:22px}.account-providers{grid-template-columns:1fr}.account-help{margin-bottom:40px}}
+  </style>
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<header class="site-header"><div class="container header-inner">
+  <a class="brand brand-logo" href="index.html" aria-label="DRB-Digital – Startseite"><img src="drb-digital-transparent-600px.png" srcset="drb-digital-transparent-600px.png 600w, drb-digital-transparent-1200px.png 1200w" sizes="(max-width: 760px) 180px, 216px" width="600" height="200" alt="DRB Digital – Digitale Lösungen. Für deine Ziele."></a>
+  <nav aria-label="Hauptnavigation"><a href="index.html">Start</a><a href="projekte.html">Projekte</a><a href="ueber-mich.html">Über mich</a><a href="news.html">News</a><a href="kontakt.html">Kontakt</a><a class="account-nav-link" href="konto.html" aria-current="page">Kundenkonto</a></nav>
+</div></header>
+
+<main id="main" class="container">
+  <section class="account-hero" aria-labelledby="account-title">
+    <p class="eyebrow">DRB Kundenportal</p>
+    <h1 id="account-title">Willkommen in deinem <span>Kundenkonto.</span></h1>
+    <p>Melde dich an oder registriere dich kostenlos. Verwalte deine Profildaten und später auch deine Plugins, Lizenzen und Downloads – zentral über DRB.</p>
+  </section>
+
+  <section class="account-cards" aria-label="Anmeldung und Registrierung">
+    <article class="account-card" id="anmelden">
+      <p class="eyebrow">Bereits registriert?</p>
+      <h2>Anmelden</h2>
+      <p>Nutze dein bestehendes DRB-Konto oder eine bereits verknüpfte Anmeldemethode.</p>
+      <a class="button primary" href="https://drb-homepage.de/drb-customers/login">Zur Anmeldung <span aria-hidden="true">↗</span></a>
+      <span class="account-alt">Schon eingeloggt? <a href="https://drb-homepage.de/drb-customers">Mein Kundenprofil öffnen ↗</a></span>
+    </article>
+    <article class="account-card" id="registrieren">
+      <p class="eyebrow">Neu bei DRB?</p>
+      <h2>Kostenlos registrieren</h2>
+      <p>Erstelle ein Konto mit E-Mail-Adresse und Passwort. Deine Kontaktdaten ergänzt du anschließend im Kundenprofil.</p>
+      <a class="button primary" href="https://drb-homepage.de/user/register">Konto erstellen <span aria-hidden="true">↗</span></a>
+      <span class="account-alt">Alternativ kannst du dich unten mit einem freigeschalteten Social-Login-Anbieter anmelden.</span>
+    </article>
+  </section>
+
+  <section class="account-provider-wrap" aria-labelledby="social-title">
+    <p class="eyebrow">Weitere Anmeldemöglichkeiten</p>
+    <h2 id="social-title">Mit deinem Konto anmelden</h2>
+    <p>Wähle einen Anbieter. Bei der ersten Anmeldung wird – soweit Registrierung freigegeben ist – ein DRB-Kundenkonto erstellt. Vorhandene Konten zuerst anmelden und den Anbieter im Kundenprofil verbinden.</p>
+    <div class="account-providers">
+      <a class="account-provider" href="https://drb-homepage.de/drb-customers/oauth/github/start" aria-label="Mit GitHub anmelden">
+        <span class="account-provider-icon" aria-hidden="true">GH</span><span class="account-provider-text"><strong>GitHub</strong><small>Bereits getestet</small></span>
+      </a>
+      <a class="account-provider" href="https://drb-homepage.de/drb-customers/oauth/steam/start" aria-label="Mit Steam anmelden">
+        <span class="account-provider-icon" aria-hidden="true">ST</span><span class="account-provider-text"><strong>Steam</strong><small>Bereits getestet</small></span>
+      </a>
+      <a class="account-provider" href="https://drb-homepage.de/drb-customers/oauth/google/start" aria-label="Mit Google anmelden">
+        <span class="account-provider-icon" aria-hidden="true">G</span><span class="account-provider-text"><strong>Google</strong><small>Nach Freischaltung</small></span>
+      </a>
+      <a class="account-provider" href="https://drb-homepage.de/drb-customers/oauth/discord/start" aria-label="Mit Discord anmelden">
+        <span class="account-provider-icon" aria-hidden="true">DC</span><span class="account-provider-text"><strong>Discord</strong><small>Nach Freischaltung</small></span>
+      </a>
+      <a class="account-provider" href="https://drb-homepage.de/drb-customers/oauth/microsoft/start" aria-label="Mit Microsoft anmelden">
+        <span class="account-provider-icon" aria-hidden="true">MS</span><span class="account-provider-text"><strong>Microsoft</strong><small>Nach Freischaltung</small></span>
+      </a>
+      <a class="account-provider" href="https://drb-homepage.de/drb-customers/oauth/twitch/start" aria-label="Mit Twitch anmelden">
+        <span class="account-provider-icon" aria-hidden="true">TW</span><span class="account-provider-text"><strong>Twitch</strong><small>Nach Freischaltung</small></span>
+      </a>
+      <a class="account-provider" href="https://drb-homepage.de/drb-customers/oauth/apple/start" aria-label="Mit Apple anmelden">
+        <span class="account-provider-icon" aria-hidden="true">AP</span><span class="account-provider-text"><strong>Apple</strong><small>Nach Freischaltung</small></span>
+      </a>
+    </div>
+  </section>
+
+  <aside class="account-help" aria-label="Wichtige Hinweise">
+    <h2>Ein Kundenkonto – mehrere Anmeldemethoden</h2>
+    <p>Die Anmeldung und Speicherung deiner Kundendaten erfolgen ausschließlich auf <a href="https://drb-homepage.de/drb-customers/login">drb-homepage.de</a>. Diese GitHub Page zeigt nur die Zugänge an und verarbeitet keine Passwörter oder Zugangstokens.</p>
+    <p>Noch nicht freigeschaltete Anbieter können beim Öffnen eine entsprechende Meldung anzeigen. Während Wartungsarbeiten können neue Registrierungen vorübergehend gesperrt sein.</p>
+  </aside>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <a class="brand brand-footer" href="index.html" aria-label="DRB-Digital – Startseite"><img src="drb-digital-symbol-transparent-128px.png" width="36" height="36" alt=""><span>DRB-Digital</span></a>
+    <p>Webentwicklung &amp; Infrastruktur</p>
+    <a href="#top">Nach oben <span aria-hidden="true">↑</span></a>
+  </div>
+</footer>
+</body>
+</html>
